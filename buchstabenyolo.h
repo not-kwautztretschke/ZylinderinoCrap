@@ -1,0 +1,645 @@
+/** 
+ *
+ *
+ *  \file      buchstabenyolo.h
+ *  \author    Bernhard Stöffler
+ *  \date      2021-03-01
+ */
+#ifndef __BUCHSTABENYOLO_H__
+#define __BUCHSTABENYOLO_H__
+
+
+#define FONT_ae     0x7E 
+#define FONT_oe     0x7F 
+#define FONT_ue     0x80 
+#define FONT_AE     0x81 
+#define FONT_OE     0x82 
+#define FONT_UE     0x83 
+#define FONT_ssharp 0x84
+#define FONT_euro   0x85
+#define FONT_LAST_CHAR       0x7D // last ascii character, the other ones are custom!
+#define FONT_FIRST_CHAR      0x20
+#define FONT_WIDTH           5
+#define FONT_HEIGHT          8
+
+#define BITS_TO_BYTE(a,b,c,d,e,f,g,h) ((a)<<7|(b)<<6|(c)<<5|(d)<<4|(e)<<3|(f)<<2|(g)<<1|(h)<<0)
+static unsigned char g_aFont[] = {
+//(space)
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//!
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//"
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//#
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+//$
+    BITS_TO_BYTE(0,0,1,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,1,0,1,0,1,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,1,0,1,0,1,0),
+    BITS_TO_BYTE(0,0,0,1,0,0,1,0),
+//%
+    BITS_TO_BYTE(0,0,1,0,0,0,1,1),
+    BITS_TO_BYTE(0,0,0,1,0,0,1,1),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,1,1,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,1,0,0,0,1,0),
+//&
+    BITS_TO_BYTE(0,0,1,1,0,1,1,0),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,1),
+    BITS_TO_BYTE(0,0,1,0,0,0,1,0),
+    BITS_TO_BYTE(0,1,0,1,0,0,0,0),
+//'
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,1,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//(
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,1,1,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,1,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//)
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,1,0,0,0,1,0),
+    BITS_TO_BYTE(0,0,0,1,1,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//*
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,1,0,1,0,1,0),
+    BITS_TO_BYTE(0,0,0,1,1,1,0,0),
+    BITS_TO_BYTE(0,0,1,0,1,0,1,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+//+
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,1,1,1,1,1,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+//,
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,1,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//-
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+//.
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+///
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,1,0),
+//0
+    BITS_TO_BYTE(0,0,1,1,1,1,1,0),
+    BITS_TO_BYTE(0,1,0,1,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,1),
+    BITS_TO_BYTE(0,0,1,1,1,1,1,0),
+//1
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,1,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//2
+    BITS_TO_BYTE(0,1,0,0,0,0,1,0),
+    BITS_TO_BYTE(0,1,1,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,1,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,1,1,0),
+//3
+    BITS_TO_BYTE(0,0,1,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,1,1),
+    BITS_TO_BYTE(0,0,1,1,0,0,0,1),
+//4
+    BITS_TO_BYTE(0,0,0,1,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,0,1,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,1,0,0,0,0),
+//5
+    BITS_TO_BYTE(0,0,1,0,0,1,1,1),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,1),
+    BITS_TO_BYTE(0,0,1,1,1,0,0,1),
+//6
+    BITS_TO_BYTE(0,0,1,1,1,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,1,0,1,0),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,1,1,0,0,0,0),
+//7
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,1,1,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,1,1),
+//8
+    BITS_TO_BYTE(0,0,1,1,0,1,1,0),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,1,1,0,1,1,0),
+//9
+    BITS_TO_BYTE(0,0,0,0,0,1,1,0),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,1,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,0,1,1,1,1,0),
+//:
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,1,0,1,1,0),
+    BITS_TO_BYTE(0,0,1,1,0,1,1,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//;
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,1,0),
+    BITS_TO_BYTE(0,0,1,1,0,1,1,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//<
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,1,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+//=
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+//>
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,1,0,0,0,1,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//?
+    BITS_TO_BYTE(0,0,0,0,0,0,1,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,1,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,1,1,0),
+//@
+    BITS_TO_BYTE(0,0,1,1,0,0,1,0),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,1,1,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,1,1,1,1,1,0),
+//A
+    BITS_TO_BYTE(0,1,1,1,1,1,1,0),
+    BITS_TO_BYTE(0,0,0,1,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,1,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,1,0,0,0,1),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,0),
+//B
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,1,1,0,1,1,0),
+//C
+    BITS_TO_BYTE(0,0,1,1,1,1,1,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,1,0,0,0,1,0),
+//D
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,1,0,0,0,1,0),
+    BITS_TO_BYTE(0,0,0,1,1,1,0,0),
+//E
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+//F
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+//G
+    BITS_TO_BYTE(0,0,1,1,1,1,1,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,1,0,0,0,1),
+    BITS_TO_BYTE(0,0,1,1,0,0,1,0),
+//H
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+//I
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//J
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+//K
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,1,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+//L
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+//M
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,1,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,1,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+//N
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,0,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+//O
+    BITS_TO_BYTE(0,0,1,1,1,1,1,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,1,1,1,1,1,0),
+//P
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,1,1,0),
+//Q
+    BITS_TO_BYTE(0,0,1,1,1,1,1,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,1,0,0,0,1),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,1,1,1,1,0),
+//R
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,0,1,1,0,0,1),
+    BITS_TO_BYTE(0,0,1,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,1,1,0),
+//S
+    BITS_TO_BYTE(0,1,0,0,0,1,1,0),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,1,1,0,0,0,1),
+//T
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+//U
+    BITS_TO_BYTE(0,0,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,1,1,1,1,1),
+//V
+    BITS_TO_BYTE(0,0,0,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,1,1,1,1),
+//W
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,1,0,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+//X
+    BITS_TO_BYTE(0,1,1,0,0,0,1,1),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,1,0,0,0,1,1),
+//Y
+    BITS_TO_BYTE(0,0,0,0,0,0,1,1),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,1,1),
+//Z
+    BITS_TO_BYTE(0,1,1,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,1,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,1,1),
+//[
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+//"\"
+    BITS_TO_BYTE(0,0,0,0,0,0,1,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+//]
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//^
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,1,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,1,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+//_
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+//`
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,1,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//a
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,0,0,0),
+//b
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,1,1,1,0,0,0),
+//c
+    BITS_TO_BYTE(0,0,1,1,1,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+//d
+    BITS_TO_BYTE(0,0,1,1,1,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+//e
+    BITS_TO_BYTE(0,0,1,1,1,0,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,1,0,0,0),
+//f
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,1,0),
+//g
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,1,1,1,1,0,0),
+//h
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,0,0,0),
+//i
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//j
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,1,1,1,1,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//k
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,1,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,0,1,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+//l
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//m
+    BITS_TO_BYTE(0,1,1,1,1,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,0,0,0),
+//n
+    BITS_TO_BYTE(0,1,1,1,1,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,0,0,0),
+//o
+    BITS_TO_BYTE(0,0,1,1,1,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,1,1,1,0,0,0),
+//p
+    BITS_TO_BYTE(0,1,1,1,1,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+//q
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,1,0,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,0,0),
+//r
+    BITS_TO_BYTE(0,1,1,1,1,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+//s
+    BITS_TO_BYTE(0,1,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+//t
+    BITS_TO_BYTE(0,0,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+//u
+    BITS_TO_BYTE(0,0,1,1,1,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,0,0),
+//v
+    BITS_TO_BYTE(0,0,0,1,1,1,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,1,1,0,0),
+//w
+    BITS_TO_BYTE(0,0,1,1,1,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,1,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,1,1,1,0,0),
+//x
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,0,1,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,0,1,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+//y
+    BITS_TO_BYTE(0,0,0,0,1,1,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,1,1,1,0,0),
+//z
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,1,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,1,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+//{
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,1,1,0,1,1,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//|
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,1,1,1,1,1,1),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+//}
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,1,1,0,1,1,0),
+    BITS_TO_BYTE(0,0,0,0,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,0),
+// ******* 7D, from here on Custom Letters **********
+		
+//ä
+    BITS_TO_BYTE(0,0,1,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,1),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,1),
+    BITS_TO_BYTE(0,1,1,1,1,0,0,0),
+//ö
+    BITS_TO_BYTE(0,0,1,1,1,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,1),
+    BITS_TO_BYTE(0,0,1,1,1,0,0,0),
+//ü
+    BITS_TO_BYTE(0,0,1,1,1,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,0,1,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,1,1,1,1,0,0),
+//Ä	
+    BITS_TO_BYTE(0,1,1,1,1,0,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,1),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,0,1,0,1,0,1),
+    BITS_TO_BYTE(0,1,1,1,1,0,0,0),
+//Ö
+    BITS_TO_BYTE(0,0,1,1,1,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,1,0,1),
+    BITS_TO_BYTE(0,0,1,1,1,0,0,0),
+//Ü
+    BITS_TO_BYTE(0,0,1,1,1,1,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,0),
+    BITS_TO_BYTE(0,1,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,1,1,1,1,0,0),
+//ß
+    BITS_TO_BYTE(0,1,1,1,1,1,1,0),
+    BITS_TO_BYTE(0,0,0,0,0,0,0,1),
+    BITS_TO_BYTE(0,0,1,0,0,1,0,1),
+    BITS_TO_BYTE(0,0,1,0,0,1,1,0),
+    BITS_TO_BYTE(0,0,0,1,1,0,0,0),
+//€
+    BITS_TO_BYTE(0,0,0,1,0,1,0,0),
+    BITS_TO_BYTE(0,0,1,1,1,1,1,0), 
+    BITS_TO_BYTE(0,1,0,1,0,1,0,1),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,1),
+    BITS_TO_BYTE(0,1,0,1,0,1,0,1),
+};
+
+
+
+#endif /* __BUCHSTABENYOLO_H__ */
