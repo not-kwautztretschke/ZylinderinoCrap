@@ -74,6 +74,7 @@ class mode                  // base class so pCurrentMode->render works
   virtual void          activate() = 0;
   virtual void          render() = 0;
   virtual int           webHandler(int) = 0;
+  virtual void          genWebpage() = 0;
 };
 
 char  mode::s_aWebpage[3072];
@@ -99,9 +100,7 @@ static class : public mode // RAINBOW ****************
   }
   void activate()
   {
-    // set webpage
-    strcpy(s_aWebpage+sizeof(g_hHead)-1, g_hRainbow);
-    strcat(s_aWebpage+sizeof(g_hHead), g_hTail);
+    genWebpage();
     // reset offsets (why not)
     m_InvertOffset=0;
     m_SpeedOffset=0;
@@ -152,6 +151,13 @@ static class : public mode // RAINBOW ****************
     }else
       return 0;
   }
+  void genWebpage()
+  {
+    int index = sizeof(g_hHead)-1;
+    memcpy(s_aWebpage+index, g_hRainbow, sizeof(g_hRainbow));
+    index += sizeof(g_hRainbow)-1;  
+    memcpy(s_aWebpage+index, g_hTail, sizeof(g_hTail));
+  }
 } g_Rainbow;
 
 static class : public mode // CIRCLE ****************
@@ -175,17 +181,7 @@ static class : public mode // CIRCLE ****************
   }
   void activate()
   {
-    //set Website
-    int index = sizeof(g_hHead)-1;
-    memcpy(s_aWebpage+index, g_hCircle, sizeof(g_hCircle));
-    index += sizeof(g_hCircle)-1;
-    memcpy(s_aWebpage+index, g_hColorPickerMulti, sizeof(g_hColorPickerMulti));
-    for(int i=0;i<5;i++){
-      sprintf(s_aWebpage+index+g_aColorPickerOffset[i], "%02x%02x%02x", s_aColor[i].r, s_aColor[i].g, s_aColor[i].b);
-      s_aWebpage[index+g_aColorPickerOffset[i]+6] = '\"'; //replace character overwritten by trailing 0
-    }
-    index += sizeof(g_hColorPickerMulti)-1;    
-    memcpy(s_aWebpage+index, g_hTail, sizeof(g_hTail));
+    genWebpage();
   }
   void render()
   {
@@ -229,8 +225,23 @@ static class : public mode // CIRCLE ****************
     }else
       return 0;
   }
+  void genWebpage()
+  {
+    //set Webpage
+    int index = sizeof(g_hHead)-1;
+    memcpy(s_aWebpage+index, g_hCircle, sizeof(g_hCircle));
+    index += sizeof(g_hCircle)-1;
+    memcpy(s_aWebpage+index, g_hColorPickerMulti, sizeof(g_hColorPickerMulti));
+    for(int i=0;i<5;i++){
+      sprintf(s_aWebpage+index+g_aColorPickerOffset[i], "%02x%02x%02x", s_aColor[i].r, s_aColor[i].g, s_aColor[i].b);
+      s_aWebpage[index+g_aColorPickerOffset[i]+6] = '\"'; //replace character overwritten by trailing 0
+    }
+    index += sizeof(g_hColorPickerMulti)-1;    
+    memcpy(s_aWebpage+index, g_hTail, sizeof(g_hTail));
+  }
 } g_Circle;
 
+#if 0
 static class : public mode // BREATHE ****************
 {
   int     m_Speed;
@@ -242,8 +253,7 @@ static class : public mode // BREATHE ****************
   }
   void activate()
   {
-    strcpy(s_aWebpage+sizeof(g_hHead)-1, g_hRainbow);
-    strcat(s_aWebpage+sizeof(g_hHead), g_hTail);
+    genWebpage();
   }
   void render()
   {
@@ -255,8 +265,17 @@ static class : public mode // BREATHE ****************
   {
     return 0;
   }
+  void genWebpage()
+  {
+    int index = sizeof(g_hHead)-1;
+    memcpy(s_aWebpage+index, g_hRainbow, sizeof(g_hRainbow));
+    index += sizeof(g_hRainbow)-1;  
+    memcpy(s_aWebpage+index, g_hTail, sizeof(g_hTail));
+  }
 } g_Breathe;
+#endif
 
+#if 0
 static class : public mode // STROBE ****************
 {
   int     m_Speed;
@@ -268,8 +287,7 @@ static class : public mode // STROBE ****************
   }
   void activate()
   {
-    strcpy(s_aWebpage+sizeof(g_hHead)-1, g_hRainbow);
-    strcat(s_aWebpage+sizeof(g_hHead), g_hTail);
+    genWebpage();
   }
   void render()
   {
@@ -281,8 +299,17 @@ static class : public mode // STROBE ****************
   {
     return 0;
   }
+  void genWebpage()
+  {
+    int index = sizeof(g_hHead)-1;
+    memcpy(s_aWebpage+index, g_hRainbow, sizeof(g_hRainbow));
+    index += sizeof(g_hRainbow)-1;  
+    memcpy(s_aWebpage+index, g_hTail, sizeof(g_hTail));
+  }
 } g_Strobe;
+#endif
 
+#if 0
 static class : public mode // FIRE ****************
 {
   int     m_Speed;
@@ -294,8 +321,7 @@ static class : public mode // FIRE ****************
   }
   void activate()
   {
-    strcpy(s_aWebpage+sizeof(g_hHead)-1, g_hRainbow);
-    strcat(s_aWebpage+sizeof(g_hHead), g_hTail);
+    genWebpage();
   }
   void render()
   {
@@ -305,8 +331,13 @@ static class : public mode // FIRE ****************
   {
       return 0;
   }
+  void genWebpage()
+  {
+  }
 } g_Fire;
+#endif
 
+#if 0
 static class : public mode // WAVE ****************
 {
   int     m_Speed;
@@ -314,12 +345,11 @@ static class : public mode // WAVE ****************
   void init()
   {
     // do stuff
-    Serial.print("Fire, ");
+    Serial.print("Wave, ");
   }
   void activate()
   {
-    strcpy(s_aWebpage+sizeof(g_hHead)-1, g_hRainbow);
-    strcat(s_aWebpage+sizeof(g_hHead), g_hTail);
+    genWebpage();
   }
   void render()
   {
@@ -329,14 +359,18 @@ static class : public mode // WAVE ****************
   {
     return 0;
   }
+  void genWebpage()
+  {
+  }
 } g_Wave;
+#endif
 
 static class : public mode // NOISE ****************
 {
   int     m_Speed;
   int     m_Scale;
   int     m_Threshold;
-  enum e_noise_type {
+  enum {
     E_NOISE_HUE,
     E_NOISE_SINGLE,
     E_NOISE_MULTI
@@ -353,27 +387,7 @@ static class : public mode // NOISE ****************
   }
   void activate()
   {
-    strcpy(s_aWebpage+sizeof(g_hHead)-1, g_hNoiseHead);
-    switch(m_Type)
-    {
-      case E_NOISE_HUE:
-        // Hue Noise has no own Parameters (yet!)
-        // Idea: not just hue(0-255) but custom color scales
-        break;
-      case E_NOISE_SINGLE:
-        strcpy(s_aWebpage+sizeof(g_hHead)+sizeof(g_hNoiseHead)-2, g_hNoise_Single);
-        break;
-      case E_NOISE_MULTI:
-        strcpy(s_aWebpage+sizeof(g_hHead)+sizeof(g_hNoiseHead)-2, g_hNoise_Multi);
-        break;
-    }
-    strcat(s_aWebpage+sizeof(g_hHead)+sizeof(g_hNoiseHead)-2, g_hNoiseTail);
-    strcat(s_aWebpage+sizeof(g_hHead)+sizeof(g_hNoiseHead)+sizeof(g_hNoiseTail)-3, g_hTail);
-  }
-  void switchType(enum e_noise_type t)
-  {
-    m_Type = t;
-    activate();
+    genWebpage();
   }
   void render()
   {
@@ -495,15 +509,40 @@ static class : public mode // NOISE ****************
       return 1;
     }else if(!strcmp(server.argName(i).c_str(),"noise_switchType")){
       // redirect pointer
-      if     (!strcmp(server.arg(i).c_str(),"hue"))     switchType(E_NOISE_HUE);
-      else if(!strcmp(server.arg(i).c_str(),"single"))  switchType(E_NOISE_SINGLE);
-      else if(!strcmp(server.arg(i).c_str(),"multi"))   switchType(E_NOISE_MULTI);
+      if     (!strcmp(server.arg(i).c_str(),"hue"))     m_Type=E_NOISE_HUE;
+      else if(!strcmp(server.arg(i).c_str(),"single"))  m_Type=E_NOISE_SINGLE;
+      else if(!strcmp(server.arg(i).c_str(),"multi"))   m_Type=E_NOISE_MULTI;
       
+      genWebpage();
       // redirect browser to homepage
       server.sendHeader("Location","/");
       server.send(303);
     }
     return 0;
+  }
+  void genWebpage()
+  {
+    int index = sizeof(g_hHead)-1;
+    memcpy(s_aWebpage+index, g_hNoiseHead, sizeof(g_hNoiseHead));
+    index += sizeof(g_hNoiseHead)-1;  
+    switch(m_Type)
+    {
+      case E_NOISE_HUE:
+        // Hue Noise has no own Parameters (yet!)
+        // Idea: not just hue(0-255) but custom color scales
+        break;
+      case E_NOISE_SINGLE:
+        memcpy(s_aWebpage+index, g_hNoise_Single, sizeof(g_hNoise_Single)); // todo add colorpickers
+        index += sizeof(g_hNoise_Single)-1;  
+        break;
+      case E_NOISE_MULTI:
+        memcpy(s_aWebpage+index, g_hNoise_Multi, sizeof(g_hNoise_Multi));
+        index += sizeof(g_hNoise_Multi)-1;  
+        break;
+    }
+    memcpy(s_aWebpage+index, g_hNoiseTail, sizeof(g_hNoiseTail));
+    index += sizeof(g_hNoiseTail)-1;  
+    memcpy(s_aWebpage+index, g_hTail, sizeof(g_hTail));
   }
 } g_Noise;
 
@@ -557,8 +596,7 @@ public:
   }
   void activate()
   {
-    strcpy(s_aWebpage+sizeof(g_hHead)-1, g_hText);
-    strcat(s_aWebpage+sizeof(g_hHead), g_hTail);
+    genWebpage();
   }
   void render()
   {
@@ -593,8 +631,16 @@ public:
     }else
       return 0;
   }
+  void genWebpage()
+  {
+    int index = sizeof(g_hHead)-1;
+    memcpy(s_aWebpage+index, g_hText, sizeof(g_hText)); //todo add colorpickers
+    index += sizeof(g_hText)-1;  
+    memcpy(s_aWebpage+index, g_hTail, sizeof(g_hTail));
+  }
 } g_Text;
 
+#if 0
 class : public mode // BOB POLY ****************
 {
   int     m_Speed;
@@ -642,7 +688,7 @@ static class : public mode // BOB MONO ****************
     return 0;
   }
 } g_BobMono;
-
+#endif
 
 // Internet/UDP Kram *******************************************
       //TODO UDP und Wlan/Hotspot trennen?
@@ -751,16 +797,16 @@ static void handleCmd()
     if(g_pCurrentMode->webHandler(i));                // individual mode webhandler
     else if(!strcmp(server.argName(i).c_str(),"overallBrightness")){
       g_OverallBrightness=atoi(server.arg(i).c_str());
-    }else if(!strcmp(server.argName(i).c_str(),"color_")){ //does not work, use lambda
-      Serial.printf("color no. %d changed to %s\n", *(server.argName(i).c_str()+6)-'1', server.arg(i).c_str()+6);
+    }else if(!strncmp(server.argName(i).c_str(),"color_", 6)){
       mode::s_aColor[*(server.argName(i).c_str()+6)-'1'] = strtol(server.arg(i).c_str()+1, NULL,16);
+      g_pCurrentMode->genWebpage();
     }else if(!strcmp(server.argName(i).c_str(),"switchMode")){
       // redirect pointer
       if     (!strcmp(server.arg(i).c_str(),"rainbow"))   g_pCurrentMode=&g_Rainbow;
       else if(!strcmp(server.arg(i).c_str(),"circle"))    g_pCurrentMode=&g_Circle;
-      else if(!strcmp(server.arg(i).c_str(),"breathe"))   g_pCurrentMode=&g_Breathe;
-      else if(!strcmp(server.arg(i).c_str(),"fire"))      g_pCurrentMode=&g_Fire;
-      else if(!strcmp(server.arg(i).c_str(),"wave"))      g_pCurrentMode=&g_Wave;
+      //else if(!strcmp(server.arg(i).c_str(),"breathe"))   g_pCurrentMode=&g_Breathe;
+      //else if(!strcmp(server.arg(i).c_str(),"fire"))      g_pCurrentMode=&g_Fire;
+      //else if(!strcmp(server.arg(i).c_str(),"wave"))      g_pCurrentMode=&g_Wave;
       else if(!strcmp(server.arg(i).c_str(),"noise"))     g_pCurrentMode=&g_Noise;
       else if(!strcmp(server.arg(i).c_str(),"text"))      g_pCurrentMode=&g_Text;
       // wake up the new mode
@@ -850,10 +896,10 @@ static void initModes()
   //initialize each mode
   g_Rainbow.init();
   g_Circle.init();
-  g_Breathe.init();
-  g_Strobe.init();
-  g_Fire.init();
-  g_Wave.init();
+  //g_Breathe.init();
+  //g_Strobe.init();
+  //g_Fire.init();
+  //g_Wave.init();
   g_Noise.init();
   g_Text.init();
   
@@ -939,7 +985,8 @@ void loop()
     case E_PRESET:
       g_pCurrentMode->render();   // handle mode
       break;
-      
+
+#if 0
     case E_BOB_POLY:
       g_BobPoly.render();
       
@@ -959,6 +1006,7 @@ void loop()
         resetFunc();
       }
       break;
+#endif
       
     default: 
       resetFunc();                  // something went wrong
