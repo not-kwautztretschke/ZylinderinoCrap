@@ -167,14 +167,14 @@ static class : public mode // CIRCLE ****************
   public:
   void init()
   {
-    m_Speed[0] = 23;
+    m_Speed[0] = 18;
     m_Speed[1] = -8;
-    m_Speed[2] = 5;
-    m_Speed[3] = -18;
+    m_Speed[2] = 23;
+    m_Speed[3] = -15;
     m_Speed[4] = 10;    
     m_Width[0] = 4;
-    m_Width[1] = 4;
-    m_Width[2] = 8;
+    m_Width[1] = 5;
+    m_Width[2] = 2;
     m_Width[3] = 2;
     m_Width[4] = 1;
     Serial.print("Circle, ");
@@ -501,6 +501,7 @@ static class : public mode // NOISE ****************
       return 1;
     }else if(!strcmp(server.argName(i).c_str(),"noise_threshold")){   // single noise parameters
       m_Threshold = atoi(server.arg(i).c_str());
+      return 1;
     }else if(!strcmp(server.argName(i).c_str(),"noise_speed")){         // general noise parameters
       m_Speed = atoi(server.arg(i).c_str());
       return 1;
@@ -517,6 +518,7 @@ static class : public mode // NOISE ****************
       // redirect browser to homepage
       server.sendHeader("Location","/");
       server.send(303);
+      return 1;
     }
     return 0;
   }
@@ -532,12 +534,20 @@ static class : public mode // NOISE ****************
         // Idea: not just hue(0-255) but custom color scales
         break;
       case E_NOISE_SINGLE:
-        memcpy(s_aWebpage+index, g_hNoise_Single, sizeof(g_hNoise_Single)); // todo add colorpickers
-        index += sizeof(g_hNoise_Single)-1;  
+        memcpy(s_aWebpage+index, g_hColorPickerSingle, sizeof(g_hColorPickerSingle));
+        sprintf(s_aWebpage+index+g_aColorPickerOffset[0], "%02x%02x%02x", s_aColor[0].r, s_aColor[0].g, s_aColor[0].b);
+        s_aWebpage[index+g_aColorPickerOffset[0]+6] = '\"'; //replace character overwritten by trailing 0
+        index += sizeof(g_hColorPickerSingle)-1;
+        memcpy(s_aWebpage+index, g_hNoiseSingle, sizeof(g_hNoiseSingle));
+        index += sizeof(g_hNoiseSingle)-1;  
         break;
       case E_NOISE_MULTI:
-        memcpy(s_aWebpage+index, g_hNoise_Multi, sizeof(g_hNoise_Multi));
-        index += sizeof(g_hNoise_Multi)-1;  
+        memcpy(s_aWebpage+index, g_hColorPickerMulti, sizeof(g_hColorPickerMulti));
+        for(int i=0;i<5;i++){
+          sprintf(s_aWebpage+index+g_aColorPickerOffset[i], "%02x%02x%02x", s_aColor[i].r, s_aColor[i].g, s_aColor[i].b);
+          s_aWebpage[index+g_aColorPickerOffset[i]+6] = '\"'; //replace character overwritten by trailing 0
+        }
+        index += sizeof(g_hColorPickerMulti)-1;  
         break;
     }
     memcpy(s_aWebpage+index, g_hNoiseTail, sizeof(g_hNoiseTail));

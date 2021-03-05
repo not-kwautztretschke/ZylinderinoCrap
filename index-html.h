@@ -94,46 +94,29 @@ const char g_hCircle[] =
 </p><p><input type=\"submit\"></form></p>";
 
 const char g_hNoiseHead[] = 
-"<h3>Mode: Lava Lamp</h3><br>";
-
-const char g_hNoiseTail[] =
-"<p><form action=\"/cmd\">\
+"<h3>Mode: Lava Lamp</h3><br>\
+<p><form action=\"/cmd\">\
   <input type=\"submit\" value=\"Switch Type\">\
   <select name=\"noise_switchType\">\
     <option value=\"hue\">Heatmap</option>\
     <option value=\"single\">Single-Color</option>\
     <option value=\"multi\">Multi-Color</option>\
   </select>\
-</form></p>\
-<hr>\
-<p><form action=\"/cmd\"> Speed:\
+</form></p><hr>";
+
+const char g_hNoiseTail[] =
+"<p><form action=\"/cmd\"> Speed:\
   <input type=\"range\" name=\"noise_speed\" min=\"0\" max=\"16\" value=\"4\">\
 </p><p> Scale:\
   <input type=\"range\" name=\"noise_scale\" min=\"1\" max=\"16\" value=\"8\">\
 </p><p><input type=\"submit\">\
 </form></p>";
 
-const char g_hNoise_Single[] =
-"<p><form action=\"/cmd\"> Color:\
-  <input type=\"color\" name=\"noise_color_single\">\
-</p><p>Threshold:\
+const char g_hNoiseSingle[] = // todo: merge the two forms into one
+"<p><form action=\"/cmd\">Threshold:\
   <input type=\"range\" name=\"noise_threshold\" min=\"0\" max=\"255\" value=\"85\">\
   <input type=\"submit\">\
-</form></p>\
-<hr>";
-	
-
-const char g_hNoise_Multi[] = 
-"<p><form action=\"/cmd\"> Number:\
-  <input type=\"radio\" name=\"noise_number\" value=\"1\">\
-  <input type=\"radio\" name=\"noise_number\" value=\"2\">\
-  <input type=\"radio\" name=\"noise_number\" value=\"3\">\
-  <input type=\"radio\" name=\"noise_number\" value=\"4\">\
-</p><p> Color:\
-  <input type=\"color\" name=\"noise_color_multi\">\
-  <input type=\"submit\">\
-</form></p>\
-<hr>";
+</form></p>";
 
 const char g_hText[] =
 "<h3>Mode: Running Text</h3><br>\
