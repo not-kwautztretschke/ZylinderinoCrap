@@ -76,7 +76,7 @@ class mode                  // base class so pCurrentMode->render works
   virtual int           webHandler(int) = 0;
 };
 
-char  mode::s_aWebpage[2048];
+char  mode::s_aWebpage[3072];
 CRGB  mode::s_aColor[5];
 
 static mode* g_pCurrentMode;           // global pointer to currently active mode
@@ -176,8 +176,16 @@ static class : public mode // CIRCLE ****************
   void activate()
   {
     //set Website
-    strcpy(s_aWebpage+sizeof(g_hHead)-1, g_hCircle);
-    strcat(s_aWebpage+sizeof(g_hHead), g_hTail);
+    int index = sizeof(g_hHead)-1;
+    memcpy(s_aWebpage+index, g_hCircle, sizeof(g_hCircle));
+    index += sizeof(g_hCircle)-1;
+    memcpy(s_aWebpage+index, g_hColorPickerMulti, sizeof(g_hColorPickerMulti));
+    for(int i=0;i<5;i++){
+      sprintf(s_aWebpage+index+g_aColorPickerOffset[i], "%02x%02x%02x", s_aColor[i].r, s_aColor[i].g, s_aColor[i].b);
+      s_aWebpage[index+g_aColorPickerOffset[i]+6] = '\"'; //replace character overwritten by trailing 0
+    }
+    index += sizeof(g_hColorPickerMulti)-1;    
+    memcpy(s_aWebpage+index, g_hTail, sizeof(g_hTail));
   }
   void render()
   {
@@ -741,12 +749,12 @@ static void handleCmd()
     Serial.printf("%s=%s\n",server.argName(i).c_str(),server.arg(i).c_str());
 
     if(g_pCurrentMode->webHandler(i));                // individual mode webhandler
-    else if(!strcmp(server.argName(i).c_str(),"overallBrightness"))
-    {
+    else if(!strcmp(server.argName(i).c_str(),"overallBrightness")){
       g_OverallBrightness=atoi(server.arg(i).c_str());
-    }
-    else if(!strcmp(server.argName(i).c_str(),"switchMode"))
-    {
+    }else if(!strcmp(server.argName(i).c_str(),"color_")){ //does not work, use lambda
+      Serial.printf("color no. %d changed to %s\n", *(server.argName(i).c_str()+6)-'1', server.arg(i).c_str()+6);
+      mode::s_aColor[*(server.argName(i).c_str()+6)-'1'] = strtol(server.arg(i).c_str()+1, NULL,16);
+    }else if(!strcmp(server.argName(i).c_str(),"switchMode")){
       // redirect pointer
       if     (!strcmp(server.arg(i).c_str(),"rainbow"))   g_pCurrentMode=&g_Rainbow;
       else if(!strcmp(server.arg(i).c_str(),"circle"))    g_pCurrentMode=&g_Circle;
@@ -832,7 +840,7 @@ static void initModes()
 {
   Serial.print("Initializing Modes: ");
   // global stuff
-  strcpy(mode::s_aWebpage, g_hHead);
+  memcpy(mode::s_aWebpage, g_hHead, sizeof(g_hHead));
   mode::s_aColor[0] = DEFAULT_COLOR_1;
   mode::s_aColor[1] = DEFAULT_COLOR_2;
   mode::s_aColor[2] = CRGB::Black;
@@ -901,7 +909,7 @@ void setup()
   g_pCurrentMode=&g_Rainbow;
   g_pCurrentMode->activate();
 
-  initHTTP();
+  initHTTP();  
 
 #if 0 
   // clear the bobwave

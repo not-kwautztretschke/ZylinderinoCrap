@@ -43,6 +43,28 @@ const char g_hTail[] =
   </body>\
 </html>";
 
+
+// color pickers are not indented, since character position is important
+// and whitespace should be minimized (the space after "Color: " is required!)
+const char g_hColorPickerSingle[] =
+"<p><form action=\"/cmd\"> Color: \
+<input type=\"color\" name=\"color_1\" value=\"#00ff00\">\
+<input type=\"submit\">\
+</form></p>";
+
+const char g_hColorPickerMulti[] =
+"<p><form action=\"/cmd\"> Colors:\
+<input type=\"color\" name=\"color_1\" value=\"#00ff00\">\
+<input type=\"color\" name=\"color_2\" value=\"#800080\">\
+<input type=\"color\" name=\"color_3\" value=\"#000000\">\
+<input type=\"color\" name=\"color_4\" value=\"#000000\">\
+<input type=\"color\" name=\"color_5\" value=\"#000000\">\
+<input type=\"submit\">\
+</form></p>";
+
+const int g_aColorPickerOffset[] =
+{74, 125, 176, 227, 278};
+
 const char g_hRainbow[] = 
 "<h3>Mode: Rainbow</h3><br>\
 <p><form action=\"/cmd\"> Speed: \
