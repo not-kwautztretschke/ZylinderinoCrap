@@ -127,7 +127,7 @@ static class : public mode // RAINBOW ****************
     for(int y = 0; y<8; y++){
       for(int x = 0; x<g_aRes[y]; x++){
         coords(x, y)->setHue(( 
-            (15*x)/2 
+            (15*x)/2              // TODO: manual scale
           + (g_Tick*m_Speed)/16 
           + m_InvertOffset
           + m_SpeedOffset
@@ -191,7 +191,7 @@ static class : public mode // CIRCLE ****************
           CRGB tmp = s_aColor[n];
           tmp%=((m_Width[n]-w)*255/m_Width[n]);             //linear fade (kein unterschied, basst scho)
           //tmp%=(255-((255*w/m_Width[n])*(255*w/m_Width[n])/255)); // quadratic fade
-          *coords((((g_Tick*m_Speed[n])/128)+w)%35 ,y) += tmp;
+          *coords((((g_Tick*m_Speed[n])/128)+w)%35 ,y) += tmp;    //TODO: slant (see rainbow)
           *coords((((g_Tick*m_Speed[n])/128)-w)%35 ,y) += tmp;
         }
       }
@@ -742,7 +742,7 @@ static int getPacket()
                   ESP.getFreeHeap());
     #endif
 
-    // read the packet into packetBufffer
+    // read the packet into packetBuffer
     int n = g_Udp.read(g_aPacketBuffer, UDP_TX_PACKET_MAX_SIZE);
     g_aPacketBuffer[n] = 0;
     
@@ -1024,7 +1024,7 @@ void loop()
   }
 
 
-  for(int j=0;j<NUM_LEDS; j++){     // reduce overall brightness
+  for(int j=0;j<NUM_LEDS; j++){     // reduce overall brightness TODO: CFastLED::setBrightness(int)
     g_aLeds[j].nscale8(g_OverallBrightness); // it is advised to keep this somewhere between 8 and 64
   }
  
