@@ -29,6 +29,7 @@ const char g_hTail[] =
 	<option value=\"rainbow\">Rainbow</option>\
 	<option value=\"circle\">Circle</option>\
 	<option value=\"breathe\">Breathe</option>\
+	<option value=\"zepelli\">Signore Zepelli</option>\
 	<option value=\"fire\">Fire</option>\
 	<option value=\"wave\">Wave</option>\
 	<option value=\"noise\">Lava Lamp</option>\
@@ -117,6 +118,12 @@ const char g_hNoiseSingle[] = // todo: merge the two forms into one
   <input type=\"range\" name=\"noise_threshold\" min=\"0\" max=\"255\" value=\"85\">\
   <input type=\"submit\">\
 </form></p>";
+
+const char g_hZepelli[] = 
+"<h3>Mode: Signore Zepelli</h3><br>\
+<p><form action=\"/cmd\"> Speed: \
+<input type=\"range\" name=\"zepelli_speed\" min=\"-16\", max=\"16\", value=\"0\">\
+</p><p><input type=\"submit\"></form></p>";
 
 const char g_hText[] =
 "<h3>Mode: Running Text</h3><br>\

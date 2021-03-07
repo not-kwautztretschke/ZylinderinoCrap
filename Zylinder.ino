@@ -365,6 +365,49 @@ static class : public mode // WAVE ****************
 } g_Wave;
 #endif
 
+static class : public mode // ZEPELLI ****************
+{
+  int             m_Speed;
+  public:
+  void init()
+  {
+    // do stuff
+    Serial.print("Zepelli, ");
+  }
+  void activate()
+  {
+    genWebpage();
+  }
+  void render()
+  {
+    for(int i=0;i<NUM_LEDS;i++)
+      g_aLeds[i] = CRGB::Black;
+
+    for(int x=0;x<35;x++){
+      int currentByteIndex = (x+(m_Speed*g_Tick/64)) % sizeof(g_aZepelli);
+      for(int y=0;y<8;y++){
+        if(g_aZepelli[currentByteIndex] & 1<<y)
+          *coords(x,y) = CRGB::White;
+      }
+    }
+  }
+  int webHandler(int i)
+  {
+    if(!strcmp(server.argName(i).c_str(),"zepelli_speed")){
+      m_Speed = atoi(server.arg(i).c_str());
+      return 1;
+    }else
+      return 0;
+  }
+  void genWebpage()
+  {
+    int index = sizeof(g_hHead)-1;
+    memcpy(s_aWebpage+index, g_hZepelli, sizeof(g_hZepelli));
+    index += sizeof(g_hZepelli)-1;  
+    memcpy(s_aWebpage+index, g_hTail, sizeof(g_hTail));
+  }
+} g_Zepelli;
+
 static class : public mode // NOISE ****************
 {
   int     m_Speed;
@@ -817,6 +860,7 @@ static void handleCmd()
       //else if(!strcmp(server.arg(i).c_str(),"breathe"))   g_pCurrentMode=&g_Breathe;
       //else if(!strcmp(server.arg(i).c_str(),"fire"))      g_pCurrentMode=&g_Fire;
       //else if(!strcmp(server.arg(i).c_str(),"wave"))      g_pCurrentMode=&g_Wave;
+      else if(!strcmp(server.arg(i).c_str(),"zepelli"))     g_pCurrentMode=&g_Zepelli;
       else if(!strcmp(server.arg(i).c_str(),"noise"))     g_pCurrentMode=&g_Noise;
       else if(!strcmp(server.arg(i).c_str(),"text"))      g_pCurrentMode=&g_Text;
       // wake up the new mode
