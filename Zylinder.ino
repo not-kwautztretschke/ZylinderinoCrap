@@ -850,6 +850,7 @@ static void handleCmd()
     if(g_pCurrentMode->webHandler(i));                // individual mode webhandler
     else if(!strcmp(server.argName(i).c_str(),"overallBrightness")){
       g_OverallBrightness=atoi(server.arg(i).c_str());
+      FastLED.setBrightness(g_OverallBrightness);
     }else if(!strncmp(server.argName(i).c_str(),"color_", 6)){
       mode::s_aColor[*(server.argName(i).c_str()+6)-'1'] = strtol(server.arg(i).c_str()+1, NULL,16);
       g_pCurrentMode->genWebpage();
@@ -931,8 +932,12 @@ static void initHW()
   // initialize pins
   Serial.println("Initializing Pins");
   FastLED.addLeds<WS2812B, DATA_PIN, GRB>(g_aLeds, NUM_LEDS);
+  FastLED.setMaxPowerInVoltsAndMilliamps(5, 1000);
+  FastLED.setBrightness(g_OverallBrightness);
+  
   for(int j=0;j<NUM_LEDS; j++)
     g_aLeds[j] = CRGB::Black;           // initialize all LEDs to Off
+  FastLED.show();
   Serial.println("Hardware initialized");
 }
 
@@ -1067,14 +1072,15 @@ void loop()
       break;
   }
 
-
-  for(int j=0;j<NUM_LEDS; j++){     // reduce overall brightness TODO: CFastLED::setBrightness(int)
-    g_aLeds[j].nscale8(g_OverallBrightness); // it is advised to keep this somewhere between 8 and 64
+#if 0 //DEPRECATED! use FastLED.setBrightness instead
+  for(int j=0;j<NUM_LEDS; j++){               // reduce overall brightness
+    g_aLeds[j].nscale8(g_OverallBrightness);  // it is advised to keep this somewhere between 8 and 64
   }
+#endif
  
   ArduinoOTA.handle();              // OTA
   FastLED.show();                   // Actually handle LEDs
-  delay(1);
+  FastLED.delay(1);                 // Use the FastLED delay to enable dithering and stuff
   g_Tick++;
 
 }
