@@ -30,10 +30,6 @@ static enum{
 
 #define NUM_LEDS 270                // Physical amount of LEDs
 CRGB g_aLeds[NUM_LEDS];             // Array of CRGBs to be handled by FastLED
-//CRGB g_aColor[5];                   
-//CRGB g_UdpColor = CRGB::Blue;
-#define BOBWAVEBUFFER 64            // how many previous bob colors to store
-CRGB g_aBobWave[BOBWAVEBUFFER];     // previous bob colors for waves
 
 #define DEFAULT_COLOR_1 CRGB::Green
 #define DEFAULT_COLOR_2 CRGB::Purple
@@ -693,56 +689,6 @@ public:
   }
 } g_Text;
 
-#if 0
-class : public mode // BOB POLY ****************
-{
-  int     m_Speed;
-  public:
-  void init()
-  {
-    // do stuff
-    Serial.print("Bob Poly, ");
-  }
-  void activate()
-  {
-    strcpy(s_aWebpage+sizeof(g_hHead)-1, g_hRainbow);
-    strcat(s_aWebpage+sizeof(g_hHead), g_hTail);
-  }
-  void render()
-  {
-    //do stuff
-  }
-  int webHandler(int i)
-  {
-    return 0;
-  }
-} g_BobPoly;
-
-static class : public mode // BOB MONO ****************
-{
-  int     m_Speed;
-  public:
-  void init()
-  {
-    // do stuff
-    Serial.print("Bob Mono, ");
-  }
-  void activate()
-  {
-    strcpy(s_aWebpage+sizeof(g_hHead)-1, g_hRainbow);
-    strcat(s_aWebpage+sizeof(g_hHead), g_hTail);
-  }
-  void render()
-  {
-    //do stuff
-  }
-  int webHandler(int i)
-  {
-    return 0;
-  }
-} g_BobMono;
-#endif
-
 // Internet/UDP Kram *******************************************
       //TODO UDP und Wlan/Hotspot trennen?
 
@@ -1016,12 +962,6 @@ void setup()
 
   initHTTP();  
 
-#if 0 
-  // clear the bobwave
-  for(int j=0;j<20;j++)
-    g_aBobWave[j]=CRGB::Black;
-#endif
-
   initOTA();        // Over The Air update
 }
 
@@ -1044,28 +984,6 @@ void loop()
     case E_PRESET:
       g_pCurrentMode->render();   // handle mode
       break;
-
-#if 0
-    case E_BOB_POLY:
-      g_BobPoly.render();
-      
-      if(millis()-g_PreviousTime > 10000 && g_PacketCount){         // timeout check
-        Serial.printf("Haven't received Packet for ten seconds, rebooting into debug mode\n");
-        delay(10);
-        resetFunc();
-      }
-      break;
-      
-    case E_BOB_MONO:
-      g_BobMono.render();
-      
-      if(millis()-g_PreviousTime > 10000 && g_PacketCount){         // timeout check
-        Serial.printf("Haven't received Packet for ten seconds, rebooting into debug mode\n");
-        delay(10);
-        resetFunc();
-      }
-      break;
-#endif
       
     default: 
       resetFunc();                  // something went wrong
