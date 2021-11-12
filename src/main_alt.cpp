@@ -2,16 +2,11 @@
 *     Yo Wallah Geiler Hut
 */
 
-
-#include <ESP8266WiFi.h>
-#include <ESP8266WebServer.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <FastLED.h>
 #include "index-html.h"
 #include "buchstabenyolo.h"
-
-//#define PRINTPACKETS
 
 // Global Variables ****************************************
 
