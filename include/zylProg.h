@@ -21,10 +21,38 @@ typedef char CRGB;
 #endif
 #include "config.h"
 
+//************************* Pixel and Framebuffer *******************
+
+class framebuffer {
+private:
+	class pixel {
+		CRGB				m_Rgb;
+		uint8_t				m_Alpha;
+	};
+	pixel 					fb[X_RES][Y_RES];
+public:
+	CRGB*					xy(int x, int y);
+	uint8_t					xy_a(int x, int y);
+	void					setColorXY(int x, int y, CRGB c);
+	void					setAlphaXY(int x, int y, uint8_t a);
+	void					setColorX(int x, CRGB c);
+	void					setAlphaX(int x, uint8_t a);
+	void					setColorY(int y, CRGB c);
+	void					setAlphaY(int y, uint8_t a);
+	void					setColorAll(CRGB c);
+	void					setAlphaAll(uint8_t a);
+	framebuffer&			operator+= (CRGB& c); //i have no idea what i'm doing or why these are references
+	framebuffer&			operator-= (CRGB& c);
+	framebuffer&			operator/= (uint8_t d);
+	framebuffer&			operator*= (uint8_t d);
+};
+
+
+//************************* Zylinder Program ************************
 
 class zylProg{
 protected:
-	CRGB					m_FB[X_RES][Y_RES];
+	framebuffer				m_FB;
 public:
 	zylProg*				m_pNext = NULL;
 
@@ -37,6 +65,14 @@ public:
 
 //************************* Program Manager *************************
 
+enum zylCompositeMode{
+	ZCM_OVERWRITE,
+	ZCM_ADD_SCALE,
+	ZCM_ADD_SATURATE,
+	ZCM_SUB,
+	ZCM_AVG
+};
+
 class zylProgManager{
 private:
 	static int					g_Count;
@@ -45,8 +81,9 @@ private:
 public:
 	static void					add(zylProg *ptr);
 	static void					focus(int index);
+	static int					initPrograms();
 	static void					renderPrograms();
-	static void					composite(CRGB fb[X_RES][Y_RES]);
+	static void					composite(framebuffer fb, zylCompositeMode mode);
 	static void					input(uint8_t x, uint8_t y, uint8_t z);
 };
 
