@@ -52,3 +52,15 @@ void zylProgManager::input(uint8_t x, uint8_t y, uint8_t z){
 	g_pActive->input(x, y, z);
 }
 
+void zylProgManager::renderPrograms(){
+	zylProg* ptr = g_pHead;
+	for(int i=0; i<g_Count; i++){
+		ptr->render();
+		ptr = ptr->m_pNext;
+	}
+}
+
+void zylProgManager::composite(CRGB fb[X_RES][Y_RES]){
+	;
+}
+

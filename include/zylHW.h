@@ -43,26 +43,20 @@ enum zylHWMode{
 class zylHW{
 private:
 	CRGB			m_DummyLed;
-	//CRGB 			m_aLeds[]; 		//? don't know if this is smart to have..
-									//? it needs to be redefined anyway
 public:
 	virtual int 	init();
-	virtual void	show(CRGB* fb);
-	//virtual void	composite(zylHWMode mode, CRGB** fb);
+	virtual void	show(CRGB fb[X_RES][Y_RES]);
 };
 
 class zylHW_Bernie : zylHW{		//? does this need to be in the header or can we just define it in zylHW.cpp?
 private:
-	const int 		m_aRes[];
-	const int 		m_aOff[];
-	const int 		g_aRes[8] = {32, 33, 33, 34, 34, 34, 35, 35};		// Number of LEDs in each row
-	const int 		g_aOff[8] = {0, 32, 65, 98, 132, 166, 200, 235};	// indices of first LED in row
-	CRGB 			m_aLeds[NUM_LEDS];
+	static const int 		m_aRes[8];
+	static const int 		m_aOff[8];
+	CRGB 					m_aLeds[NUM_LEDS];
 public:
-	int 			init();
-	void			show(CRGB* fb);
-	//void			composite(zylHWMode mode, CRGB** fb);
-	int				getDipSwitch(int num);
+	int 					init();
+	void					show(CRGB fb[X_RES][Y_RES]);
+	int						getDipSwitch(int num);
 };
 
 

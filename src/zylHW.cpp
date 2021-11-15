@@ -11,6 +11,10 @@
 
 #include "zylHW.h"
 
+
+const int zylHW_Bernie::m_aRes[8] = {32, 33, 33, 34, 34, 34, 35, 35};		// Number of LEDs in each row 
+const int zylHW_Bernie::m_aOff[8] = {0, 32, 65, 98, 132, 166, 200, 235};		// indices of first LED in row
+
 int zylHW_Bernie::init(){
 	//* dipswitches
 	pinMode(DIP1_PIN, INPUT);
@@ -28,7 +32,7 @@ int zylHW_Bernie::init(){
 	return 0;
 }
 
-void zylHW_Bernie::show(CRGB* fb[]){
+void zylHW_Bernie::show(CRGB fb[X_RES][Y_RES]){
 	//TODO implement :)
 	// map coordinates
 	for(int y=0; y<8&&y<Y_RES; y++){

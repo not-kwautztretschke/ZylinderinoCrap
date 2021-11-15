@@ -11,10 +11,10 @@
 
 #include <Arduino.h>
 #include <FastLED.h>
-#include <WiFi.h>
-#include <WiFiUdp.h>
-#include <ArduinoOTA.h>
-#include "WiFiAutoSelector.h"
+//#include <WiFi.h>
+//#include <WiFiUdp.h>
+//#include <ArduinoOTA.h>
+//#include "WiFiAutoSelector.h"
 
 #include "config.h"
 #include "zylHW.h"
@@ -39,13 +39,6 @@ volatile int  			g_vMissedFrames = 	0;
 hw_timer_t * 			g_pTimer = 			NULL;  							//timer pointer
 portMUX_TYPE 			g_TimerMux = 		portMUX_INITIALIZER_UNLOCKED; 	//var to share portmux state 
 
-void initTimer(){
-	g_pTimer = timerBegin(0, 80, true);    							//timer ticks at 80Mhz/divider, so 1Mhz here. divider can be 2-65536 (0->65536, 1->2)
-	timerAttachInterrupt(g_pTimer, &onTimer, true);
-	timerAlarmWrite(g_pTimer, 1000000/TARGET_FRAME_RATE, true);    	//interruptAt sets ticks it takes between interrupts
-	timerAlarmEnable(g_pTimer);
-}
-
 void IRAM_ATTR onTimer() {  										//ISR
 	portENTER_CRITICAL_ISR(&g_TimerMux);
 	if(g_vRenderFrame){   											//still true -> last frame was not rendered in time
@@ -55,6 +48,13 @@ void IRAM_ATTR onTimer() {  										//ISR
 		g_vCurrentFrame++;          //! don't be tempted to do animations reliant on FPS!
 	}
 	portEXIT_CRITICAL_ISR(&g_TimerMux);
+}
+
+void initTimer(){
+	g_pTimer = timerBegin(0, 80, true);    							//timer ticks at 80Mhz/divider, so 1Mhz here. divider can be 2-65536 (0->65536, 1->2)
+	timerAttachInterrupt(g_pTimer, &onTimer, true);
+	timerAlarmWrite(g_pTimer, 1000000/TARGET_FRAME_RATE, true);    	//interruptAt sets ticks it takes between interrupts
+	timerAlarmEnable(g_pTimer);
 }
 
 void(* resetFunc) (void) = 0;

@@ -29,10 +29,10 @@ public:
 	zylProg*				m_pNext = NULL;
 
 	;						zylProg();
-	virtual int 			init(){}
+	virtual int 			init(){return 0;}
 	virtual void          	activate(){};
-	virtual void          	render() = 0;    // * Virtual function, so must be redefined
-	virtual void			input(uint8_t x, uint8_t y, uint8_t z);
+	virtual void          	render() = 0;    // * must be redefined
+	virtual void			input(uint8_t x, uint8_t y, uint8_t z){};
 };
 
 //************************* Program Manager *************************
@@ -46,7 +46,7 @@ public:
 	static void					add(zylProg *ptr);
 	static void					focus(int index);
 	static void					renderPrograms();
-	static void					composite(CRGB *fb);
+	static void					composite(CRGB fb[X_RES][Y_RES]);
 	static void					input(uint8_t x, uint8_t y, uint8_t z);
 };
 
