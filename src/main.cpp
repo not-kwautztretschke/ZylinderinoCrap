@@ -19,6 +19,7 @@
 #include "config.h"
 #include "zylHW.h"
 #include "zylWifi.h"
+#include "zylProg.h"
 #include "opcodes.h"
 
 #include "programs/sampleProgram.h"
@@ -63,9 +64,10 @@ void setup(){
 	Serial.begin(115200);
 	initTimer();
 	initOTA();
-	s_HW.init();
+	s_HW.init();				//TODO all these have a return value, use it.
 	s_Wifi.init(s_HW.getDipSwitch(0) ? ZWM_HOST : ZWM_CLIENT);
 	s_Udp.init(PUP_PORT);
+	zylProgManager::initPrograms();
 }
 
 void loop(){
@@ -78,7 +80,7 @@ void loop(){
 	}
 	if (g_vRenderFrame == true){
 		g_Zpm.renderPrograms();
-		g_Zpm.composite(s_FB);
+		g_Zpm.composite(s_FB, ZCM_OVERWRITE);
 		s_HW.show(s_FB);
 		portENTER_CRITICAL(&g_TimerMux);
 		g_vRenderFrame = false;

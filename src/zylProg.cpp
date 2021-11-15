@@ -52,6 +52,16 @@ void zylProgManager::input(uint8_t x, uint8_t y, uint8_t z){
 	g_pActive->input(x, y, z);
 }
 
+int zylProgManager::initPrograms(){
+	int error=0;
+	zylProg* ptr = g_pHead;
+	for(int i=0; i<g_Count; i++){
+		error += ptr->init();
+		ptr = ptr->m_pNext;
+	}
+	return error;
+}
+
 void zylProgManager::renderPrograms(){
 	zylProg* ptr = g_pHead;
 	for(int i=0; i<g_Count; i++){
@@ -60,7 +70,20 @@ void zylProgManager::renderPrograms(){
 	}
 }
 
-void zylProgManager::composite(CRGB fb[X_RES][Y_RES]){
+void zylProgManager::composite(CRGB fb[X_RES][Y_RES], zylCompositeMode mode){
+	zylProg* ptr = g_pHead;
+	for(int i=0; i<g_Count; i++){
+		//compositing
+		for(int x=0;x<X_RES;x++){
+			for(int y=0;y<Y_RES;y++){
+				switch(mode){
+					case ZCM_OVERWRITE:
+					break;
+				}
+			}
+		}
+		ptr = ptr->m_pNext;
+	}
 	;
 }
 

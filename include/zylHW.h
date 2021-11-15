@@ -31,15 +31,6 @@
   #define DIP4_PIN				34
 #endif
 
-/*					belongs somewhere else
-enum zylHWMode{
-	ZHW_OVERWRITE,
-	ZHW_ADD_SCALE,
-	ZHW_ADD_SATURATE,
-	ZHW_SUB,
-	ZHW_AVG
-};*/ 
-
 class zylHW{
 private:
 	CRGB			m_DummyLed;
