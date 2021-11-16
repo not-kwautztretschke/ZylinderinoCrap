@@ -80,7 +80,7 @@ void loop(){
 	}
 	if (g_vRenderFrame == true){
 		g_Zpm.renderPrograms();
-		g_Zpm.composite(s_FB, ZCM_OVERWRITE);
+		g_Zpm.composite(s_FB, ZCM_SINGLE);
 		s_HW.show(s_FB);
 		portENTER_CRITICAL(&g_TimerMux);
 		g_vRenderFrame = false;
