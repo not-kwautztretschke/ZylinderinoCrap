@@ -105,6 +105,7 @@ int initOTA(){
 		else if (error == OTA_CONNECT_ERROR)	{Serial.println("Connect failed");	return 3;}
 		else if (error == OTA_RECEIVE_ERROR)	{Serial.println("Receive failed");	return 4;}
 		else if (error == OTA_END_ERROR)    	{Serial.println("End failed");		return 5;}
+		else									{									return 0;}
 	});
 	ArduinoOTA.begin();
 	return 0;

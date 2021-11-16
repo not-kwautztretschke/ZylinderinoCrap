@@ -24,9 +24,14 @@
 
 #include "programs/sampleProgram.h"
 
+#if 1
+	#define DPRINT Serial.printf
+#else
+	#define DPRINT //
+#endif
 
 //*************************** Static Variables **************************
-static zylHW_Bernie 	s_HW;
+static HARDWAREBACKEND 	s_HW;
 static zylWifi			s_Wifi;
 static zylUdp			s_Udp;
 static CRGB				s_FB[X_RES][Y_RES];
@@ -62,12 +67,26 @@ void(* resetFunc) (void) = 0;
 //*************************** Main Program ******************************
 void setup(){
 	Serial.begin(115200);
-	initTimer();
+	DPRINT("init timer\n");
+	delay(1000);
+	//initTimer();
+	DPRINT("timer done; init OTA\n");
+	delay(1000);
 	initOTA();
+	DPRINT("OTA done, init HW\n");
+	delay(1000);
 	s_HW.init();				//TODO all these have a return value, use it.
+	DPRINT("HW done, init Wifi\n");
+	delay(1000);
 	s_Wifi.init(s_HW.getDipSwitch(0) ? ZWM_HOST : ZWM_CLIENT);
+	DPRINT("Wifi done, init UDP\n");
+	delay(1000);
 	s_Udp.init(PUP_PORT);
+	DPRINT("UDP done, init Programs\n");
+	delay(1000);
 	zylProgManager::initPrograms();
+	DPRINT("init Done\n");
+	delay(1000);
 }
 
 void loop(){

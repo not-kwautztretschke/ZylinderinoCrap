@@ -70,14 +70,21 @@ void zylProgManager::renderPrograms(){
 	}
 }
 
-void zylProgManager::composite(CRGB fb[X_RES][Y_RES], zylCompositeMode mode){
+void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES], zylCompositeMode mode){
 	zylProg* ptr = g_pHead;
 	for(int i=0; i<g_Count; i++){
 		//compositing
 		for(int x=0;x<X_RES;x++){
 			for(int y=0;y<Y_RES;y++){
 				switch(mode){
-					case ZCM_OVERWRITE:
+				case ZCM_SINGLE:
+					fb_in[x][y] = g_pActive->m_FB[x][y];
+					break;
+				case ZCM_OVERWRITE:
+				case ZCM_ADD_SCALE:
+				case ZCM_ADD_SATURATE:
+				case ZCM_SUB:
+				case ZCM_AVG:
 					break;
 				}
 			}

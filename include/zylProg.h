@@ -24,9 +24,8 @@ typedef char CRGB;
 //************************* Zylinder Program ************************
 
 class zylProg{
-protected:
-	CRGB					m_FB[X_RES][Y_RES];
 public:
+	CRGB					m_FB[X_RES][Y_RES];
 	zylProg*				m_pNext = NULL;
 
 	;						zylProg();

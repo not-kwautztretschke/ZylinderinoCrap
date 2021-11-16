@@ -36,6 +36,7 @@
   #endif
   #define X_RES 				35                  //Resolution in x direction (maximum)
   #define Y_RES 				8                   //Resolution in y direction
+  #define HARDWAREBACKEND		zylHW_Bernie		//class derived from zylHW
   #define TARGET_FRAME_RATE 	30                  //global hat frame rate
   #define OTA_HOSTNAME 			"bernie-zylinder"
   #define OTA_PASSWORD			"swag"
