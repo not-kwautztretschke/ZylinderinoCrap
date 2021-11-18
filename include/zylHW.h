@@ -13,6 +13,7 @@
 #define __ZYLHW_H_
 
 #include <FastLED.h>
+#include "zylFB.h"
 #include "config.h"
 
 #define LED_VOLTAGE 			5                   //Led voltage
@@ -36,7 +37,7 @@ private:
 	CRGB			m_DummyLed;
 public:
 	virtual int 	init();
-	virtual void	show(CRGB fb[X_RES][Y_RES]);
+	virtual void	show(zylFB fb);
 };
 
 class zylHW_Bernie : zylHW{		//? does this need to be in the header or can we just define it in zylHW.cpp?
@@ -46,7 +47,7 @@ private:
 	CRGB 					m_aLeds[NUM_LEDS];
 public:
 	int 					init();
-	void					show(CRGB fb[X_RES][Y_RES]);
+	void					show(zylFB fb);
 	int						getDipSwitch(int num);
 };
 

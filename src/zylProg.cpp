@@ -70,7 +70,7 @@ void zylProgManager::renderPrograms(){
 	}
 }
 
-void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES], zylCompositeMode mode){
+void zylProgManager::composite(zylFB fb_in, zylCompositeMode mode){
 	zylProg* ptr = g_pHead;
 	for(int i=0; i<g_Count; i++){
 		//compositing
@@ -78,7 +78,7 @@ void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES], zylCompositeMode mode){
 			for(int y=0;y<Y_RES;y++){
 				switch(mode){
 				case ZCM_SINGLE:
-					fb_in[x][y] = g_pActive->m_FB[x][y];
+					fb_in(x,y) = g_pActive->m_FB(x,y);
 					break;
 				case ZCM_OVERWRITE:
 				case ZCM_ADD_SCALE:

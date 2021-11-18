@@ -12,20 +12,14 @@
 #ifndef __ZYLPROG_H_
 #define __ZYLPROG_H_
 
-#ifdef ARDUINO
-#include <FastLED.h>
-#else
-typedef char CRGB;
-#include	<stdlib.h>
-#include	<stdint.h>
-#endif
+#include "zylFB.h"
 #include "config.h"
 
 //************************* Zylinder Program ************************
 
 class zylProg{
 public:
-	CRGB					m_FB[X_RES][Y_RES];
+	zylFB					m_FB;
 	zylProg*				m_pNext = NULL;
 
 	;						zylProg();
@@ -56,7 +50,7 @@ public:
 	static void					focus(int index);
 	static int					initPrograms();
 	static void					renderPrograms();
-	static void					composite(CRGB fb[X_RES][Y_RES], zylCompositeMode mode);
+	static void					composite(zylFB fb, zylCompositeMode mode);
 	static void					input(uint8_t x, uint8_t y, uint8_t z);
 };
 
