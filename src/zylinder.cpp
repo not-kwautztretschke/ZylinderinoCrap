@@ -67,30 +67,24 @@ void(* resetFunc) (void) = 0;
 //*************************** Main Program ******************************
 void setup(){
 	Serial.begin(115200);
-	DPRINT("init timer\n");
-	delay(100);
-	initTimer();
-	DPRINT("timer done; init OTA\n");
-	delay(100);
-	//initOTA();
-	DPRINT("OTA done, init HW\n");
-	delay(100);
+	DPRINT("init HW\n");
 	s_HW.init();				//TODO all these have a return value, use it.
-	DPRINT("HW done, init Wifi\n");
-	delay(100);
-	s_Wifi.init(s_HW.getDipSwitch(0) ? ZWM_HOST : ZWM_CLIENT);
+	DPRINT("HW done, init timer\n");
+	initTimer();
+	DPRINT("timer done, init Wifi\n");
+	Serial.printf("Dipswitch state = %d\n", s_HW.getDipSwitch(0));
+	s_Wifi.init((zylWifiMode)s_HW.getDipSwitch(0));
 	DPRINT("Wifi done, init UDP\n");
-	delay(100);
 	s_Udp.init(PUP_PORT);
-	DPRINT("UDP done, init Programs\n");
-	delay(100);
+	DPRINT("UDP done; init OTA\n");
+	initOTA();
+	DPRINT("OTA done, init Programs\n");
 	zylProgManager::initPrograms();
 	DPRINT("init Done\n");
-	delay(100);
 }
 
 void loop(){
-	//(void) s_Wifi.handle();
+	(void) s_Wifi.handle();
 	if (g_vMissedFrames){
 		Serial.printf("MISSED %d FRAMES, SOMETHING IS WRONG\n", g_vMissedFrames);
 		portENTER_CRITICAL(&g_TimerMux);
@@ -106,9 +100,9 @@ void loop(){
 		portEXIT_CRITICAL(&g_TimerMux);
 	}
 
-	#if 0
 	uint8_t opcode, x, y, z;
 	if(s_Udp.read(&opcode, &x, &y, &z)){
+		Serial.printf("received %X, %X, %X, %X\n", opcode, x, y, z);
 		switch(opcode){
 			case OP_REBOOT:
 				resetFunc();
@@ -120,7 +114,6 @@ void loop(){
 			Serial.println("Invalid Opcode");
 		}
 	}
-	#endif
 
-	//ArduinoOTA.handle();
+	ArduinoOTA.handle();
 }

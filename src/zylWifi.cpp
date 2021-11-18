@@ -14,12 +14,21 @@
 //*************************** WIFI ********************************************
 
 int zylWifi::init(zylWifiMode mode){
-	if (mode == ZWM_CLIENT){				//! Something is broken here. There needs to be a Wifi.begin() before UDP init!!
+	m_Mode = mode;
+	if (m_Mode == ZWM_CLIENT){
+		Serial.printf("Starting Wifi in client mode\n");
 		m_WAS.add(STASSID, STAPSWD);
 		m_WAS.add(RESCUE_SSID, RESCUE_PSWD);
 		while(m_WAS.scanAndConnect() < 0);//this has to succeed, otherwise we crash.
-	}else if (mode == ZWM_HOST){
-		WiFi.softAP(AP_NAME, AP_PSWD);IPAddress IP = WiFi.softAPIP();
+        int connectedIndex = m_WAS.getConnectedIndex();
+        Serial.print("to '");
+      	Serial.print(m_WAS.getSSID(connectedIndex));
+		Serial.print(" with IP ");
+		Serial.println(WiFi.localIP());
+	}else if (m_Mode == ZWM_HOST){
+		Serial.printf("Starting Wifi in host mode\n");
+		WiFi.softAP(AP_NAME, AP_PSWD);
+		IPAddress IP = WiFi.softAPIP();
 		Serial.print("AP IP address: ");
 		Serial.println(IP);
 	}else{
@@ -31,17 +40,21 @@ int zylWifi::init(zylWifiMode mode){
 zylWifi::zylWifi() : m_WAS(WIFI_CONNECT_TIMEOUT) {};	//this calls the constructor of member m_WAS
 
 int zylWifi::handle(){									//periodically check the wifi connection
-	if(WiFi.status() != WL_CONNECTED) {					//and try to reconnect if broken
-		Serial.print("Connecting wifi ");
-		if(-1 < m_WAS.scanAndConnect()) {
-			int connectedIndex = m_WAS.getConnectedIndex();
-			Serial.print("to '");
-			Serial.print(m_WAS.getSSID(connectedIndex));
-			Serial.println("'. Done.");
-		}else{
-			Serial.println("failed.");
-			return 1;
+	if(m_Mode==ZWM_CLIENT){
+		if(WiFi.status() != WL_CONNECTED) {					//and try to reconnect if broken
+			Serial.print("Connecting wifi ");
+			if(-1 < m_WAS.scanAndConnect()) {
+				int connectedIndex = m_WAS.getConnectedIndex();		//TODO less ugly, sync with init()
+				Serial.print("to '");
+				Serial.print(m_WAS.getSSID(connectedIndex));
+				Serial.println("'. Done.");
+			}else{
+				Serial.println("failed.");
+				return 1;
+			}
 		}
+	}else{
+		//does SoftAP need any handling?
 	}
 	return 0;
 }
@@ -49,10 +62,12 @@ int zylWifi::handle(){									//periodically check the wifi connection
 //*************************** UDP ********************************************
 
 int zylUdp::init(int port){
+	Serial.printf("Listening on Port %d\n", port);
 	return m_Udp.begin(port);
 }
 
 int zylUdp::read(uint8_t* opcode, uint8_t* x, uint8_t* y, uint8_t* z){
+	int packets = 0;
 	while (m_Udp.parsePacket()){
 		int length = m_Udp.read(m_aPupBuffer, PUPBUFFER_SIZE);
 		if (length && verifyPacket()) {
@@ -60,9 +75,10 @@ int zylUdp::read(uint8_t* opcode, uint8_t* x, uint8_t* y, uint8_t* z){
 			*x 		=	m_aPupBuffer[1];
 			*y 		=	m_aPupBuffer[2];
 			*z 		=	m_aPupBuffer[3];
+			packets++;
 		}
 	}
-	return 0;
+	return packets;
 }
 
 #ifdef Z_LEO
@@ -109,9 +125,7 @@ int initOTA(){
 		else if (error == OTA_END_ERROR)    	{Serial.println("End failed");		return 5;}
 		else									{									return 0;}
 	});
-	Serial.printf("Beginning OTA...");
 	ArduinoOTA.begin();
-	Serial.printf("now\n");
 	delay(1000);
 	return 0;
 }

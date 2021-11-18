@@ -28,13 +28,14 @@
 #endif
 
 enum zylWifiMode{
-	ZWM_HOST,
-	ZWM_CLIENT
+	ZWM_HOST 	= 0,
+	ZWM_CLIENT 	= 1
 };
 
 class zylWifi{
 private:
 	WiFiAutoSelector	m_WAS;
+	zylWifiMode			m_Mode;
 public:
 	int		 			init(zylWifiMode mode);
 	int					handle();

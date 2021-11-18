@@ -12,7 +12,7 @@
 #ifndef __OPCODES_H_
 #define __OPCODES_H_
 
-#define OP_REBOOT 			0x01
+#define OP_REBOOT 			0x00
 #define OP_BRIGHTNESS		0x04
 #define OP_CHANGEPROGRAM 	0x12
 #define OP_PROGRAMINPUT		0x1A
