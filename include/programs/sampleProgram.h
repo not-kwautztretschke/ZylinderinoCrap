@@ -12,6 +12,10 @@
 #include "zylProg.h"
 
 class sampleProgram : zylProg {
+private:
+	CRGB 					m_Color;
 public:
-	virtual void          	render();
+	int				init();
+	void			input(uint8_t x, uint8_t y, uint8_t z);
+	void          	render();
 };
