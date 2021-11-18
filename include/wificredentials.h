@@ -12,7 +12,7 @@
 #ifndef __WIFICREDENTIALS_H_
 #define __WIFICREDENTIALS_H_
 
-#define STASSID "Name"
-#define STAPSWD "Password"
+#define STASSID "Dreck Wlan"
+#define STAPSWD "Wallah Billah"
 
 #endif

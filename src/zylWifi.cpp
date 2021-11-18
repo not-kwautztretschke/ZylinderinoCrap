@@ -107,6 +107,9 @@ int initOTA(){
 		else if (error == OTA_END_ERROR)    	{Serial.println("End failed");		return 5;}
 		else									{									return 0;}
 	});
+	Serial.printf("Beginning OTA...");
 	ArduinoOTA.begin();
+	Serial.printf("now\n");
+	delay(1000);
 	return 0;
 }
