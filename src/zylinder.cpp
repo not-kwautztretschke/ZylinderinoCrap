@@ -78,12 +78,10 @@ void setup(){
 	s_HW.init();				//TODO all these have a return value, use it.
 	DPRINT("HW done, init Wifi\n");
 	delay(100);
-	//s_Wifi.init(s_HW.getDipSwitch(0) ? ZWM_HOST : ZWM_CLIENT);
+	s_Wifi.init(s_HW.getDipSwitch(0) ? ZWM_HOST : ZWM_CLIENT);
 	DPRINT("Wifi done, init UDP\n");
 	delay(100);
-	//s_Udp.init(PUP_PORT);
-	WiFiUDP temp;
-	temp.begin(69);
+	s_Udp.init(PUP_PORT);
 	DPRINT("UDP done, init Programs\n");
 	delay(100);
 	zylProgManager::initPrograms();

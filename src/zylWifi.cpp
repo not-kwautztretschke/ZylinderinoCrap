@@ -14,8 +14,10 @@
 //*************************** WIFI ********************************************
 
 int zylWifi::init(zylWifiMode mode){
-	if (mode == ZWM_CLIENT){
+	if (mode == ZWM_CLIENT){				//! Something is broken here. There needs to be a Wifi.begin() before UDP init!!
 		m_WAS.add(STASSID, STAPSWD);
+		m_WAS.add(RESCUE_SSID, RESCUE_PSWD);
+		while(m_WAS.scanAndConnect() < 0);//this has to succeed, otherwise we crash.
 	}else if (mode == ZWM_HOST){
 		WiFi.softAP(AP_NAME, AP_PSWD);IPAddress IP = WiFi.softAPIP();
 		Serial.print("AP IP address: ");

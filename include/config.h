@@ -18,6 +18,8 @@
 #define TEXT_PORT 				26092				//UDP port for receiving plaintext
 #define AP_NAME 				"Zylinder"			//SoftAP SSID name
 #define AP_PSWD 				"papatastisch"		//SoftAP Password
+#define RESCUE_SSID				"rescue"			//Open a Hotspot on your phone with these parameters
+#define RESCUE_PSWD				"rescue"
 //#define TEXTBUFFER_SIZE 		4096
 
 #ifdef Z_LEO
