@@ -139,6 +139,33 @@ void zylProgManager::renderPrograms()
 
 void zylProgManager::composite(zylFB fb_in)
 {
+	fb_in = zylPel::Black;
+	zylProg* ptr = &zylProgManager::s_BG;
+	while(ptr != &zylProgManager::s_FG){
+		for(int x=0;x<X_RES;x++){
+			for(int y=0;y<Y_RES;y++){
+				uint8_t a = ptr->m_FB.xy(x,y).m_Alpha;
+				switch(ptr->m_CompositeMode){
+					case ZCM_SOLID:
+						fb_in(x,y) = 
+							(fb_in(x,y)*(255-a))
+							+(ptr->m_FB(x,y)*a);
+						break;
+					case ZCM_ADD:
+						fb_in(x,y) = 
+							fb_in(x,y)
+							+(ptr->m_FB(x,y)*a);
+						break;
+					case ZCM_SUB:
+						fb_in(x,y) = 
+							fb_in(x,y)
+							-(ptr->m_FB(x,y)*a);
+						break;
+				}
+			}
+		}
+		ptr = ptr->m_pAbove;
+	}
 }
 
 void zylProgManager::setColor(zylPel c, int i)
