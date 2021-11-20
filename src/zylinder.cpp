@@ -35,7 +35,6 @@ static HARDWAREBACKEND 	s_HW;
 static zylWifi			s_Wifi;
 static zylUdp			s_Udp;
 static zylFB			s_FB;
-zylProgManager			g_Zpm;
 
 //*************************** Timer Interrupt ************************
 volatile bool 			g_vRenderFrame = 	false;
@@ -80,6 +79,8 @@ void setup(){
 	initOTA();
 	DPRINT("OTA done, init Programs\n");
 	zylProgManager::initPrograms();
+	DPRINT("Programs done, init ZPM\n");
+	zylProgManager::init();
 	DPRINT("init Done\n");
 }
 
@@ -92,8 +93,8 @@ void loop(){
 		portEXIT_CRITICAL(&g_TimerMux);
 	}
 	if (g_vRenderFrame == true){
-		g_Zpm.renderPrograms();
-		g_Zpm.composite(s_FB, ZCM_SINGLE);
+		zylProgManager::renderPrograms();
+		zylProgManager::composite(s_FB);
 		s_HW.show(s_FB);
 		portENTER_CRITICAL(&g_TimerMux);
 		g_vRenderFrame = false;
@@ -107,9 +108,9 @@ void loop(){
 			case OP_REBOOT:
 				resetFunc();
 			case OP_CHANGEPROGRAM:
-				g_Zpm.focus(x);
+				zylProgManager::focus(x);
 			case OP_PROGRAMINPUT:
-				g_Zpm.input(x, y, z);
+				zylProgManager::input(x, y, z);
 			default:
 			Serial.println("Invalid Opcode");
 		}

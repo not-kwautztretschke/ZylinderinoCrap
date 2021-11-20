@@ -20,7 +20,7 @@
 #define AP_PSWD 				"papatastisch"		//SoftAP Password
 #define RESCUE_SSID				"rescue"			//Open a Hotspot on your phone with these parameters
 #define RESCUE_PSWD				"rescue"
-//#define TEXTBUFFER_SIZE 		4096
+#define	MAX_COLORS				8					//colors to pick from, if too low some programs might crash
 
 #ifdef Z_LEO
   #define X_RES 				48                  //Resolution in x direction

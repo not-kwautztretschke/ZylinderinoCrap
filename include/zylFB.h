@@ -71,11 +71,11 @@ private:
 	zylPel				m_FB[X_RES][Y_RES];
 public:
 	zylPel&				xy(int x, int y);
-	void				setAll(CRGB c);
+	void				setAll(zylPel c);
 	void				setAlpha(uint8_t na);
 	zylPel&				operator()(int x, int y);
-	void				operator=(CRGB c);
-	;					zylFB(CRGB c);
+	void				operator=(zylPel c);
+	;					zylFB(zylPel c);
 	;					zylFB();
 };
 

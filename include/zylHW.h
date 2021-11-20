@@ -33,8 +33,6 @@
 #endif
 
 class zylHW{
-private:
-	CRGB			m_DummyLed;
 public:
 	virtual int 	init();
 	virtual void	show(zylFB fb);

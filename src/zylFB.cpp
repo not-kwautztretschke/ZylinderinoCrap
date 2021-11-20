@@ -15,7 +15,7 @@
 zylPel&	zylFB::xy(int x, int y){
 	return m_FB[x][y];
 }
-void zylFB::setAll(CRGB c){
+void zylFB::setAll(zylPel c){
 	for(int x=0;x<X_RES;x++)
 		for(int y=0;y<X_RES;y++)
 			m_FB[x][y]=c;
@@ -30,17 +30,17 @@ zylPel&	zylFB::operator()(int x, int y)	{
 	return xy(x,y);
 }
 
-void zylFB::operator=(CRGB c)	{
+void zylFB::operator=(zylPel c)	{
 	setAll(c);
 }
 
-zylFB::zylFB(CRGB c){
+zylFB::zylFB(zylPel c){
 	setAll(c);
 	setAlpha(255);
 }
 
 zylFB::zylFB(){
-	setAll(CRGB::Black);
+	setAll(zylPel::Black);
 	setAlpha(255);
 }
 
