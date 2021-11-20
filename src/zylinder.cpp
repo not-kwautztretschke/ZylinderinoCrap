@@ -22,8 +22,6 @@
 #include "zylProg.h"
 #include "opcodes.h"
 
-#include "programs/sampleProgram.h"
-
 #if 1
 	#define DPRINT Serial.printf
 #else

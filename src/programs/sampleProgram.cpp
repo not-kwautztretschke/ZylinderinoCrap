@@ -9,12 +9,18 @@
  * 
  */
 
-#include "programs/sampleProgram.h"
+#include "zylProg.h"
+#pragma message: Obnoxious
 
-void sampleProgram::render(){
-	for(int x=0; x<X_RES; x++)
-		for(int y=0; y<Y_RES; y++)
-			m_FB(x, y).setHue((millis()/10)%255);
-}
-
-static sampleProgram(g_Zpm); //add itself to global program manager
+class : zylProg{
+public:
+	int init(){
+		m_FB = zylProgManager::getColor(0);
+		return 0;
+	}
+	void render(){
+		for(int x=0; x<X_RES; x++)
+			for(int y=2; y<Y_RES-3; y++)
+				m_FB(x,y).setHue((millis()/100)%255);
+	}
+} sampleProgram;
