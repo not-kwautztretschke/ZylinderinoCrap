@@ -11,11 +11,17 @@
 
 #include "zylProg.h"
 
+//***************** ZylProg base class functions ************************
+zylProg::zylProg(bool include)
+{ // automatically add new zylProg to linked list
+	if(include)
+		zylProgManager::add(this);
+};
 
 zylProg::zylProg()
-{ // automatically add new zylProg to linked list
-	zylProgManager::add(this);
-};
+{
+	zylProg(true);
+}
 
 void zylProg::push()
 {	//pushes program to the top of the render queue
@@ -72,8 +78,8 @@ zylProg*	zylProgManager::s_pHead =				NULL;
 zylProg*	zylProgManager::s_pActive =				NULL;
 zylPel 		zylProgManager::s_aColors[MAX_COLORS] = {zylPel::Black};
 int 		zylProgManager::s_ActiveColorIndex = 	0;
-zylProg		zylProgManager::s_FG;
-zylProg		zylProgManager::s_BG;
+zylProg		zylProgManager::s_FG(false);
+zylProg		zylProgManager::s_BG(false);
 
 void zylProgManager::add(zylProg* ptr)
 {	//pushes newly installed program on the list of all programs

@@ -36,6 +36,7 @@ public:
 	virtual void          	activate(){};
 	virtual void          	render(){};
 	virtual void			input(uint8_t x, uint8_t y, uint8_t z){};
+	;						zylProg(bool include);
 	;						zylProg();
 	void					push();
 	int						pop();
