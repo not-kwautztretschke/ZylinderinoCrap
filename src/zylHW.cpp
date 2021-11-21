@@ -33,7 +33,6 @@ int zylHW_Bernie::init(){
 }
 
 void zylHW_Bernie::show(CRGB fb[X_RES][Y_RES]){
-	//TODO implement :)
 	// map coordinates
 	for(int y=0; y<8&&y<Y_RES; y++){
 		for (int x=0; x<m_aRes[y]&&x<X_RES; x++){

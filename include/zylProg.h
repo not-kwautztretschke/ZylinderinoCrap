@@ -33,6 +33,7 @@ public:
 	virtual void          	activate(){};
 	virtual void          	render() = 0;    // * must be redefined
 	virtual void			input(uint8_t x, uint8_t y, uint8_t z){};
+	//TODO: composite mode, ID, renderlist pointer & methods, constructors(bool)
 };
 
 //************************* Program Manager *************************
@@ -58,6 +59,7 @@ public:
 	static void					renderPrograms();
 	static void					composite(CRGB fb[X_RES][Y_RES], zylCompositeMode mode);
 	static void					input(uint8_t x, uint8_t y, uint8_t z);
+	//TODO: rename g->s, color array, init(), FG & BG
 };
 
 #endif

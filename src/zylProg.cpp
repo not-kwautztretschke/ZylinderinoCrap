@@ -17,14 +17,15 @@ zylProg::zylProg()
 	zylProgManager::add(this);
 };
 
-//************************* Program Manager **********************
+//TODO: constructors, linked list,
 
+//************************* Program Manager **********************
+//TODO: g->s, colorarray, FG/BG
 int zylProgManager::g_Count=0;
 zylProg *zylProgManager::g_pHead=NULL;
 zylProg *zylProgManager::g_pActive=NULL;
 
-// implement "static methods" (i.e. global functions)
-
+//TODO: better implementation
 void zylProgManager::add(zylProg* ptr)
 {
 	if (g_pHead == NULL){ //first program
@@ -39,6 +40,7 @@ void zylProgManager::add(zylProg* ptr)
 	g_Count++;
 }
 
+//TODO index->id, g->s, for->while
 void zylProgManager::focus(int index)
 {
 	zylProg* ptr = g_pHead;
@@ -52,6 +54,8 @@ void zylProgManager::input(uint8_t x, uint8_t y, uint8_t z){
 	g_pActive->input(x, y, z);
 }
 
+//TODO init(): FG/BG pointers, push/activate first, NULL handling
+
 int zylProgManager::initPrograms(){
 	int error=0;
 	zylProg* ptr = g_pHead;
@@ -62,6 +66,7 @@ int zylProgManager::initPrograms(){
 	return error;
 }
 
+//TODO only render programs in renderlist
 void zylProgManager::renderPrograms(){
 	zylProg* ptr = g_pHead;
 	for(int i=0; i<g_Count; i++){
@@ -70,6 +75,7 @@ void zylProgManager::renderPrograms(){
 	}
 }
 
+//TODO renderlist; compositemode per zylProg
 void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES], zylCompositeMode mode){
 	zylProg* ptr = g_pHead;
 	for(int i=0; i<g_Count; i++){
@@ -94,3 +100,4 @@ void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES], zylCompositeMode mode){
 	;
 }
 
+//TODO: setColor, getColor

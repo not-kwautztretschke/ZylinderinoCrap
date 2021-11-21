@@ -32,8 +32,6 @@
 #endif
 
 class zylHW{
-private:
-	CRGB			m_DummyLed;
 public:
 	virtual int 	init();
 	virtual void	show(CRGB fb[X_RES][Y_RES]);

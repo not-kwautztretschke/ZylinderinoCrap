@@ -126,6 +126,5 @@ int initOTA(){
 		else									{									return 0;}
 	});
 	ArduinoOTA.begin();
-	delay(1000);
 	return 0;
 }

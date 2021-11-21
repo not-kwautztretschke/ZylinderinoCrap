@@ -20,7 +20,7 @@
 #define AP_PSWD 				"papatastisch"		//SoftAP Password
 #define RESCUE_SSID				"rescue"			//Open a Hotspot on your phone with these parameters
 #define RESCUE_PSWD				"rescue"
-//#define TEXTBUFFER_SIZE 		4096
+#define MAX_COLORS				8					//available colors, if too low might cause crashes
 
 #ifdef Z_LEO
   #define X_RES 				48                  //Resolution in x direction
@@ -39,7 +39,7 @@
   #define X_RES 				35                  //Resolution in x direction (maximum)
   #define Y_RES 				8                   //Resolution in y direction
   #define HARDWAREBACKEND		zylHW_Bernie		//class derived from zylHW
-  #define TARGET_FRAME_RATE 	30                  //global hat frame rate
+  #define TARGET_FRAME_RATE 	60                  //global hat frame rate
   #define OTA_HOSTNAME 			"bernie-zylinder"
   #define OTA_PASSWORD			"swag"
 #endif
