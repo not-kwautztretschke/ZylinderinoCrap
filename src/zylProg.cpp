@@ -11,14 +11,18 @@
 
 #include "zylProg.h"
 
-
+//***************** ZylProg base class functions *******************
 zylProg::zylProg()
-{ // automatically add new zylProg to linked list
+{	// automatically add new zylProg to linked list
 	zylProgManager::add(this);
-};
+}
 
-//TODO: constructors, linked list,
-
+zylProg::zylProg(bool add)
+{	// automatically add new zylProg to linked list
+	//! to use this, derived zylProg needs "using zylProg::zylProg"
+	if(add)
+		zylProgManager::add(this);
+}
 //************************* Program Manager **********************
 //TODO: g->s, colorarray, FG/BG
 int 		zylProgManager::s_Count=0;

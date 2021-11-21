@@ -30,6 +30,7 @@ public:
 	zylProg*				m_pNext = NULL;
 
 	;						zylProg();
+	;						zylProg(bool add);
 	virtual int 			init(){return 0;}
 	virtual void          	activate(){};
 	virtual void          	render() = 0;    // * must be redefined

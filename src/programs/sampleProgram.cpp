@@ -13,6 +13,7 @@
 
 static class : public zylProg{
 public:
+	using zylProg::zylProg;
 	int init(){
 		m_Id = 128;
 		return 0;
