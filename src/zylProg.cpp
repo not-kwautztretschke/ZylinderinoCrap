@@ -83,7 +83,8 @@ int zylProgManager::init(){
 }
 
 //TODO only render programs in renderlist
-void zylProgManager::renderPrograms(){
+void zylProgManager::renderPrograms()
+{
 	zylProg* ptr = s_pHead;
 	for(int i=0; i<s_Count; i++){
 		ptr->render();
@@ -92,28 +93,11 @@ void zylProgManager::renderPrograms(){
 }
 
 //TODO renderlist; compositemode per zylProg
-void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES], zylCompositeMode mode){
-	zylProg* ptr = s_pHead;
-	for(int i=0; i<s_Count; i++){
-		//compositing
-		for(int x=0;x<X_RES;x++){
-			for(int y=0;y<Y_RES;y++){
-				switch(mode){
-				case ZCM_SINGLE:
-					fb_in[x][y] = s_pActive->m_FB[x][y];
-					break;
-				case ZCM_OVERWRITE:
-				case ZCM_ADD_SCALE:
-				case ZCM_ADD_SATURATE:
-				case ZCM_SUB:
-				case ZCM_AVG:
-					break;
-				}
-			}
-		}
-		ptr = ptr->m_pNext;
-	}
-	;
+void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES])
+{	//currently only composite active program
+	for(int x=0;x<X_RES;x++)
+		for(int y=0;y<Y_RES;y++)
+			fb_in[x][y] = s_pActive->m_FB[x][y];
 }
 
 void zylProgManager::selectColor(int i)

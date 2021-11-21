@@ -39,15 +39,6 @@ public:
 
 //************************* Program Manager *************************
 
-enum zylCompositeMode{
-	ZCM_SINGLE,
-	ZCM_OVERWRITE,
-	ZCM_ADD_SCALE,
-	ZCM_ADD_SATURATE,
-	ZCM_SUB,
-	ZCM_AVG
-};
-
 class zylProgManager{
 private:
 	static int					s_Count;
@@ -61,7 +52,7 @@ public:
 	static int					initPrograms();
 	static int					init();
 	static void					renderPrograms();
-	static void					composite(CRGB fb[X_RES][Y_RES], zylCompositeMode mode);
+	static void					composite(CRGB fb[X_RES][Y_RES]);
 	static void					input(uint8_t x, uint8_t y, uint8_t z);
 	static void					selectColor(int i);
 	static void					setColor(CRGB c, int i);

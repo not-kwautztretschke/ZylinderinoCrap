@@ -92,7 +92,7 @@ void loop(){
 	}
 	if (g_vRenderFrame == true){
 		zylProgManager::renderPrograms();
-		zylProgManager::composite(s_FB, ZCM_SINGLE);
+		zylProgManager::composite(s_FB);
 		s_HW.show(s_FB);
 		portENTER_CRITICAL(&g_TimerMux);
 		g_vRenderFrame = false;
