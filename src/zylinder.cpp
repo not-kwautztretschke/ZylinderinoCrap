@@ -106,6 +106,12 @@ void loop(){
 			case OP_REBOOT:
 				resetFunc();
 				break;
+			case OP_SELECTCOLOR:
+				zylProgManager::selectColor(x);
+				break;
+			case OP_CHANGECOLORRGB:
+				zylProgManager::setColor(CRGB(x, y, z));
+				break;
 			case OP_CHANGEPROGRAM:
 				zylProgManager::focus(x);
 				break;

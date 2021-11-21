@@ -53,6 +53,8 @@ private:
 	static int					s_Count;
 	static zylProg*				s_pHead;
 	static zylProg*				s_pActive;
+	static CRGB					s_aColors[MAX_COLORS];
+	static int					s_ActiveColorIndex;
 public:
 	static void					add(zylProg *ptr);
 	static int					focus(int id);
@@ -61,6 +63,11 @@ public:
 	static void					renderPrograms();
 	static void					composite(CRGB fb[X_RES][Y_RES], zylCompositeMode mode);
 	static void					input(uint8_t x, uint8_t y, uint8_t z);
+	static void					selectColor(int i);
+	static void					setColor(CRGB c, int i);
+	static void					setColor(CRGB c);
+	static CRGB					getColor(int i);
+	static CRGB					getColor();
 	//TODO: rename g->s, color array, init(), FG & BG
 };
 

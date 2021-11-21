@@ -21,9 +21,11 @@ zylProg::zylProg()
 
 //************************* Program Manager **********************
 //TODO: g->s, colorarray, FG/BG
-int zylProgManager::s_Count=0;
-zylProg *zylProgManager::s_pHead=NULL;
-zylProg *zylProgManager::s_pActive=NULL;
+int 		zylProgManager::s_Count=0;
+zylProg*	zylProgManager::s_pHead=NULL;
+zylProg*	zylProgManager::s_pActive=NULL;
+CRGB 		zylProgManager::s_aColors[MAX_COLORS] = {CRGB::Black};
+int 		zylProgManager::s_ActiveColorIndex = 	0;
 
 void zylProgManager::add(zylProg* ptr)
 {
@@ -68,6 +70,7 @@ int zylProgManager::initPrograms(){
 }
 
 int zylProgManager::init(){
+	s_aColors[0] = 		CRGB::Green;
 	s_pActive = 		s_pHead;	//focus first program and push it on the render list
 	if(s_pActive != NULL){
 		s_pActive->activate();
@@ -113,4 +116,30 @@ void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES], zylCompositeMode mode){
 	;
 }
 
-//TODO: setColor, getColor
+void zylProgManager::selectColor(int i)
+{	//activates color i
+	s_ActiveColorIndex = i;
+}
+
+void zylProgManager::setColor(CRGB c, int i)
+{	//changes a specific color and leaves index on it
+	if(i>=0 && i<MAX_COLORS){
+		s_ActiveColorIndex = i;
+		setColor(c);
+ 	}
+}
+ 
+void zylProgManager::setColor(CRGB c)
+{	//changes the currently active color
+	s_aColors[s_ActiveColorIndex] = c;
+}
+
+CRGB zylProgManager::getColor(int i)
+{	//returns a specific color without activating it
+	return s_aColors[i];
+}
+
+CRGB zylProgManager::getColor()
+{	//returns the currently selected color
+	return s_aColors[s_ActiveColorIndex];
+}
