@@ -25,6 +25,7 @@ typedef char CRGB;
 
 class zylProg{
 public:
+	int						m_Id;
 	CRGB					m_FB[X_RES][Y_RES];
 	zylProg*				m_pNext = NULL;
 
@@ -54,7 +55,7 @@ private:
 	static zylProg*				s_pActive;
 public:
 	static void					add(zylProg *ptr);
-	static void					focus(int index);
+	static int					focus(int id);
 	static int					initPrograms();
 	static void					renderPrograms();
 	static void					composite(CRGB fb[X_RES][Y_RES], zylCompositeMode mode);

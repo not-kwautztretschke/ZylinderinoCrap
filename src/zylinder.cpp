@@ -103,10 +103,13 @@ void loop(){
 		switch(opcode){
 			case OP_REBOOT:
 				resetFunc();
+				break;
 			case OP_CHANGEPROGRAM:
 				zylProgManager::focus(x);
+				break;
 			case OP_PROGRAMINPUT:
 				zylProgManager::input(x, y, z);
+				break;
 			default:
 			Serial.println("Invalid Opcode");
 		}

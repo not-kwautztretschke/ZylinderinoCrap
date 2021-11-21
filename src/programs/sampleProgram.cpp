@@ -11,10 +11,11 @@
 
 #include "zylProg.h"
 
-static class : zylProg{
+static class : public zylProg{
 public:
 	int init(){
-		Serial.println("Init Sample Program 1");
+		m_Id = 128;
+		return 0;
 	}
 	void render(){
 		for(int x=0; x<X_RES; x++)

@@ -34,14 +34,19 @@ void zylProgManager::add(zylProg* ptr)
 	s_Count++;
 }
 
-//TODO index->id, g->s, for->while
-void zylProgManager::focus(int index)
+int zylProgManager::focus(int id)
 {
 	zylProg* ptr = s_pHead;
-	for(int i=0; i<index; i++)
+	while(ptr != NULL){
+		if(ptr->m_Id==id){
+			Serial.printf("Found program with ID %d\n", id);
+			s_pActive = ptr;
+			s_pActive->activate();
+			return 0;
+		}
 		ptr = ptr->m_pNext;
-	s_pActive = ptr;
-	s_pActive->activate();
+	}
+	return 1;
 }
 
 void zylProgManager::input(uint8_t x, uint8_t y, uint8_t z){
@@ -56,6 +61,7 @@ int zylProgManager::initPrograms(){
 	zylProg* ptr = s_pHead;
 	for(int i=0; i<s_Count; i++){
 		error += ptr->init();
+		Serial.printf("Program with ID %d at %p\n", ptr->m_Id, ptr);
 		ptr = ptr->m_pNext;
 	}
 	return error;
