@@ -21,46 +21,40 @@ zylProg::zylProg()
 
 //************************* Program Manager **********************
 //TODO: g->s, colorarray, FG/BG
-int zylProgManager::g_Count=0;
-zylProg *zylProgManager::g_pHead=NULL;
-zylProg *zylProgManager::g_pActive=NULL;
+int zylProgManager::s_Count=0;
+zylProg *zylProgManager::s_pHead=NULL;
+zylProg *zylProgManager::s_pActive=NULL;
 
-//TODO: better implementation
 void zylProgManager::add(zylProg* ptr)
 {
-	if (g_pHead == NULL){ //first program
-		g_pHead = ptr;
-		g_pActive = ptr;
-	}else{
-		zylProg* cur = g_pHead;
-		while(cur->m_pNext != NULL)
-			cur = cur->m_pNext;
-		cur->m_pNext = ptr;
-	}
-	g_Count++;
+	if (s_pHead == NULL)
+		s_pActive = ptr;		//move to zylProgManager::init();
+	ptr->m_pNext = 	s_pHead;
+	s_pHead = 		ptr;
+	s_Count++;
 }
 
 //TODO index->id, g->s, for->while
 void zylProgManager::focus(int index)
 {
-	zylProg* ptr = g_pHead;
+	zylProg* ptr = s_pHead;
 	for(int i=0; i<index; i++)
 		ptr = ptr->m_pNext;
-	g_pActive = ptr;
-	g_pActive->activate();
+	s_pActive = ptr;
+	s_pActive->activate();
 }
 
 void zylProgManager::input(uint8_t x, uint8_t y, uint8_t z){
-	g_pActive->input(x, y, z);
+	s_pActive->input(x, y, z);
 }
 
 //TODO init(): FG/BG pointers, push/activate first, NULL handling
 
 int zylProgManager::initPrograms(){
-	Serial.printf("initializing %d programs\n", g_Count);
+	Serial.printf("initializing %d programs\n", s_Count);
 	int error=0;
-	zylProg* ptr = g_pHead;
-	for(int i=0; i<g_Count; i++){
+	zylProg* ptr = s_pHead;
+	for(int i=0; i<s_Count; i++){
 		error += ptr->init();
 		ptr = ptr->m_pNext;
 	}
@@ -69,8 +63,8 @@ int zylProgManager::initPrograms(){
 
 //TODO only render programs in renderlist
 void zylProgManager::renderPrograms(){
-	zylProg* ptr = g_pHead;
-	for(int i=0; i<g_Count; i++){
+	zylProg* ptr = s_pHead;
+	for(int i=0; i<s_Count; i++){
 		ptr->render();
 		ptr = ptr->m_pNext;
 	}
@@ -78,14 +72,14 @@ void zylProgManager::renderPrograms(){
 
 //TODO renderlist; compositemode per zylProg
 void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES], zylCompositeMode mode){
-	zylProg* ptr = g_pHead;
-	for(int i=0; i<g_Count; i++){
+	zylProg* ptr = s_pHead;
+	for(int i=0; i<s_Count; i++){
 		//compositing
 		for(int x=0;x<X_RES;x++){
 			for(int y=0;y<Y_RES;y++){
 				switch(mode){
 				case ZCM_SINGLE:
-					fb_in[x][y] = g_pActive->m_FB[x][y];
+					fb_in[x][y] = s_pActive->m_FB[x][y];
 					break;
 				case ZCM_OVERWRITE:
 				case ZCM_ADD_SCALE:

@@ -49,9 +49,9 @@ enum zylCompositeMode{
 
 class zylProgManager{
 private:
-	static int					g_Count;
-	static zylProg*				g_pHead;
-	static zylProg*				g_pActive;
+	static int					s_Count;
+	static zylProg*				s_pHead;
+	static zylProg*				s_pActive;
 public:
 	static void					add(zylProg *ptr);
 	static void					focus(int index);
