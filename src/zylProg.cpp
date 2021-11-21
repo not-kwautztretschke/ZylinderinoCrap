@@ -67,6 +67,18 @@ int zylProgManager::initPrograms(){
 	return error;
 }
 
+int zylProgManager::init(){
+	s_pActive = 		s_pHead;	//focus first program and push it on the render list
+	if(s_pActive != NULL){
+		s_pActive->activate();
+	}else{
+		Serial.println("NULL POINTER ERROR, no programs loaded");
+		return 1;
+	}
+	return 0;
+
+}
+
 //TODO only render programs in renderlist
 void zylProgManager::renderPrograms(){
 	zylProg* ptr = s_pHead;

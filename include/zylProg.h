@@ -57,6 +57,7 @@ public:
 	static void					add(zylProg *ptr);
 	static int					focus(int id);
 	static int					initPrograms();
+	static int					init();
 	static void					renderPrograms();
 	static void					composite(CRGB fb[X_RES][Y_RES], zylCompositeMode mode);
 	static void					input(uint8_t x, uint8_t y, uint8_t z);

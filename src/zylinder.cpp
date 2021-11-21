@@ -77,6 +77,8 @@ void setup(){
 	initOTA();
 	DPRINT("OTA done, init Programs\n");
 	zylProgManager::initPrograms();
+	DPRINT("Programs done, init ZPM\n");
+	zylProgManager::init();
 	DPRINT("init Done\n");
 }
 
