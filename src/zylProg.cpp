@@ -57,6 +57,7 @@ void zylProgManager::input(uint8_t x, uint8_t y, uint8_t z){
 //TODO init(): FG/BG pointers, push/activate first, NULL handling
 
 int zylProgManager::initPrograms(){
+	Serial.printf("initializing %d programs\n", g_Count);
 	int error=0;
 	zylProg* ptr = g_pHead;
 	for(int i=0; i<g_Count; i++){
