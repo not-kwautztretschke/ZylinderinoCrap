@@ -16,7 +16,7 @@ public:
 	using 		zylProg::zylProg;
 	int			m_ColorIndex = 0;
 
-	void input(uint32_t x, uint8_t y, uint8_t z){
+	void input(uint8_t x, uint8_t y, uint8_t z){
 		switch(x){
 		case 0:
 			m_ColorIndex = y;
