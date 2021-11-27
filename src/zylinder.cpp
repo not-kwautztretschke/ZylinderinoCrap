@@ -101,24 +101,29 @@ void loop(){
 
 	uint8_t opcode, x, y, z;
 	if(s_Udp.read(&opcode, &x, &y, &z)){
-		Serial.printf("received %X, %X, %X, %X\n", opcode, x, y, z);
+		Serial.printf("\nreceived %X, %X, %X, %X\n", opcode, x, y, z);
 		switch(opcode){
-			case OP_REBOOT:
-				resetFunc();
-				break;
-			case OP_SELECTCOLOR:
-				zylProgManager::selectColor(x);
-				break;
-			case OP_CHANGECOLORRGB:
-				zylProgManager::setColor(CRGB(x, y, z));
-				break;
-			case OP_CHANGEPROGRAM:
-				zylProgManager::focus(x);
-				break;
-			case OP_PROGRAMINPUT:
-				zylProgManager::input(x, y, z);
-				break;
-			default:
+		case OP_REBOOT:
+			resetFunc();
+			break;
+		case OP_SELECTCOLOR:
+			zylProgManager::selectColor(x);
+			break;
+		case OP_CHANGECOLORRGB:
+			zylProgManager::setColor(CRGB(x, y, z));
+			break;
+		case OP_CHANGEPROGRAM:
+			zylProgManager::focus(x);
+			zylProgManager::printComposition();
+			break;
+		case OP_COMPOSITEPROGRAM:
+			Serial.printf("Compositor exit code %d\n", zylProgManager::changeComposition(x));
+			zylProgManager::printComposition();
+			break;
+		case OP_PROGRAMINPUT:
+			zylProgManager::input(x, y, z);
+			break;
+		default:
 			Serial.println("Invalid Opcode");
 		}
 	}

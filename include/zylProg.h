@@ -71,7 +71,9 @@ public:
 	static void					renderPrograms();
 	static void					composite(CRGB fb[X_RES][Y_RES]);
 	static void					input(uint8_t x, uint8_t y, uint8_t z);
-	
+
+	static int					changeComposition(int x);
+	static void					printComposition();
 	static void					selectColor(int i);
 	static void					setColor(CRGB c, int i);
 	static void					setColor(CRGB c);

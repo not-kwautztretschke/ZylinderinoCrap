@@ -26,7 +26,7 @@ zylProg::zylProg(bool add)
 
 int zylProg::push()
 {	//pushes program to the top of the render queue
-	if(m_pAbove||m_pBelow){
+	if(m_pAbove || m_pBelow){
 		return 1;
 	}else{
 		m_pAbove = 						&zylProgManager::s_FG;	//set own pointers
@@ -39,7 +39,7 @@ int zylProg::push()
 
 int zylProg::pop()
 {	//removes program from render queue, if it's in there
-	if(m_pAbove && m_pBelow){
+	if(m_pAbove || m_pBelow){
 		m_pAbove->m_pBelow = 	m_pBelow; 	//redirect other's pointers
 		m_pBelow->m_pAbove = 	m_pAbove;
 		m_pAbove = 				NULL;		//remove own pointers
@@ -51,9 +51,11 @@ int zylProg::pop()
 
 int zylProg::move(bool up)
 {	//swaps program with one above(/below) if in render queue
-	if((m_pAbove == &zylProgManager::s_FG && up)
-	 ||(m_pAbove == &zylProgManager::s_BG && !up)){
-		return 1;
+	if(m_pAbove == NULL || m_pBelow == NULL){
+		return 1;	// program not in queue
+	}else if((m_pAbove == &zylProgManager::s_FG && up)
+	 ||(m_pBelow == &zylProgManager::s_BG && !up)){
+		return 2;	// program at edge
 	}else{
 		if(up){		//get a whiteboard and draw some arrows if unclear
 			zylProg* oldAbove = 	m_pAbove;
@@ -89,8 +91,6 @@ zylProg		zylProgManager::s_BG(false);
 
 void zylProgManager::add(zylProg* ptr)
 {
-	if (s_pHead == NULL)
-		s_pActive = ptr;		//move to zylProgManager::init();
 	ptr->m_pNext = 	s_pHead;
 	s_pHead = 		ptr;
 	s_Count++;
@@ -131,15 +131,19 @@ int zylProgManager::initPrograms(){
 
 int zylProgManager::init(){
 	s_aColors[0] = 		CRGB::Green;
-	s_pActive = 		s_pHead;	//focus first program and push it on the render list
-	if(s_pActive != NULL){
-		s_pActive->activate();
-	}else{
-		Serial.println("NULL POINTER ERROR, no programs loaded");
+	s_FG.m_pAbove = 	&s_FG;
+	s_FG.m_pBelow = 	&s_BG;
+	s_BG.m_pAbove = 	&s_FG;
+	s_BG.m_pBelow = 	&s_BG;
+	if(s_pHead == NULL){
+		Serial.println("NULL POINTER ERROR, no programs loaded\n");
 		return 1;
 	}
+	s_pActive = s_pHead;	//focus first program and push it on the render list
+	Serial.printf("Pushing Program %d on the list, wish me luck\n", s_pActive->m_Id);
+	s_pActive->push();
+	s_pActive->activate();
 	return 0;
-
 }
 
 //TODO only render programs in renderlist
@@ -152,12 +156,45 @@ void zylProgManager::renderPrograms()
 	}
 }
 
-//TODO renderlist; compositemode per zylProg
+//TODO renderlist; merge with renderPrograms()
 void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES])
 {	//currently only composite active program
 	for(int x=0;x<X_RES;x++)
 		for(int y=0;y<Y_RES;y++)
 			fb_in[x][y] = s_pActive->m_FB[x][y];
+}
+
+int zylProgManager::changeComposition(int x)
+{
+	switch(x){
+	case 0: //push
+		return s_pActive->push();
+	case 1: //pop
+		return s_pActive->pop();
+	case 2: //move up
+		return s_pActive->move(true);
+	case 3: //move down
+		return s_pActive->move(false);
+	default: //invalid input
+		return 2;
+	}
+}
+
+void zylProgManager::printComposition()
+{
+	Serial.printf("\nComposition:\n");
+	zylProg* ptr = &s_FG;
+	for(int i=0;;i++){
+		if(ptr == &s_FG){
+			Serial.printf("Layer %d: Foreground\n", i);
+		}else if(ptr == &s_BG){
+			Serial.printf("Layer %d: Background\n", i);
+			break;
+		}else{
+			Serial.printf("Layer %d: Program %d%s\n", i, ptr->m_Id, (ptr==s_pActive)?"(Active)":"");
+		}
+		ptr = ptr->m_pBelow;
+	}
 }
 
 void zylProgManager::selectColor(int i)
