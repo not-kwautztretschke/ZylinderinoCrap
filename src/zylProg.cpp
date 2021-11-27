@@ -90,14 +90,14 @@ zylProg		zylProgManager::s_BG(false);
 
 
 void zylProgManager::add(zylProg* ptr)
-{
+{	//call this in the constructor of your programs to add them to a list of all programs
 	ptr->m_pNext = 	s_pHead;
 	s_pHead = 		ptr;
 	s_Count++;
 }
 
 int zylProgManager::focus(int id)
-{
+{	//change active program by ID
 	zylProg* ptr = s_pHead;
 	while(ptr != NULL){
 		if(ptr->m_Id==id){
@@ -111,13 +111,13 @@ int zylProgManager::focus(int id)
 	return 1;
 }
 
-void zylProgManager::input(uint8_t x, uint8_t y, uint8_t z){
+void zylProgManager::input(uint8_t x, uint8_t y, uint8_t z)
+{	//forward a three byte input command to the active program
 	s_pActive->input(x, y, z);
 }
 
-//TODO init(): FG/BG pointers, push/activate first, NULL handling
-
-int zylProgManager::initPrograms(){
+int zylProgManager::initPrograms()
+{	//initialize all programs
 	Serial.printf("initializing %d programs\n", s_Count);
 	int error=0;
 	zylProg* ptr = s_pHead;
@@ -129,7 +129,8 @@ int zylProgManager::initPrograms(){
 	return error;
 }
 
-int zylProgManager::init(){
+int zylProgManager::init()
+{	//initialize the zylProgManager (Set variables and add one program to renderqueue)
 	s_aColors[0] = 		CRGB::Green;
 	s_FG.m_pAbove = 	&s_FG;
 	s_FG.m_pBelow = 	&s_BG;
@@ -140,14 +141,13 @@ int zylProgManager::init(){
 		return 1;
 	}
 	s_pActive = s_pHead;	//focus first program and push it on the render list
-	Serial.printf("Pushing Program %d on the list, wish me luck\n", s_pActive->m_Id);
 	s_pActive->push();
 	s_pActive->activate();
 	return 0;
 }
 
 void zylProgManager::renderPrograms()
-{
+{	//render all programs in renderqueue
 	zylProg* ptr = s_BG.m_pAbove;
 	while(ptr != &s_FG){
 		ptr->render();
@@ -157,7 +157,7 @@ void zylProgManager::renderPrograms()
 
 //TODO merge with renderPrograms()
 void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES])
-{
+{	//composite programs in the renderqueue into a given framebuffer
 	//? maybe clear the framebuffer first?
 	zylProg* ptr = s_BG.m_pAbove;
 	while(ptr != &s_FG){
@@ -191,7 +191,7 @@ void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES])
 }
 
 int zylProgManager::changeComposition(int x, int y)
-{
+{	//modify the renderqueue or related settings
 	switch(x){
 	case 0: //change mode
 		s_pActive->m_CompositeMode = (zylCompositeMode) y;
@@ -218,7 +218,7 @@ int zylProgManager::changeComposition(int x, int y)
 }
 
 void zylProgManager::printComposition()
-{
+{	//print info about the renderqueue on serial
 	Serial.printf("\nComposition:\n");
 	zylProg* ptr = &s_FG;
 	for(int i=0;;i++){
