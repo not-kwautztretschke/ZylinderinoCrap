@@ -23,13 +23,69 @@ zylProg::zylProg(bool add)
 	if(add)
 		zylProgManager::add(this);
 }
+
+int zylProg::push()
+{	//pushes program to the top of the render queue
+	if(m_pAbove||m_pBelow){
+		return 1;
+	}else{
+		m_pAbove = 						&zylProgManager::s_FG;	//set own pointers
+		m_pBelow = 						zylProgManager::s_FG.m_pBelow;
+		zylProgManager::s_FG.m_pBelow = this;					//redirect other's pointers
+		m_pBelow->m_pAbove = 			this;
+		return 0;
+	}
+}
+
+int zylProg::pop()
+{	//removes program from render queue, if it's in there
+	if(m_pAbove && m_pBelow){
+		m_pAbove->m_pBelow = 	m_pBelow; 	//redirect other's pointers
+		m_pBelow->m_pAbove = 	m_pAbove;
+		m_pAbove = 				NULL;		//remove own pointers
+		m_pBelow = 				NULL;
+		return 0;
+	}else
+		return 1;
+}
+
+int zylProg::move(bool up)
+{	//swaps program with one above(/below) if in render queue
+	if((m_pAbove == &zylProgManager::s_FG && up)
+	 ||(m_pAbove == &zylProgManager::s_BG && !up)){
+		return 1;
+	}else{
+		if(up){		//get a whiteboard and draw some arrows if unclear
+			zylProg* oldAbove = 	m_pAbove;
+			m_pAbove = 				oldAbove->m_pAbove;
+			oldAbove->m_pAbove =	this;
+			oldAbove->m_pBelow = 	m_pBelow;
+			m_pBelow->m_pAbove = 	oldAbove;
+			m_pBelow = 				oldAbove;
+			m_pAbove->m_pBelow = 	this;
+			return 0;
+		}else{
+			zylProg* oldBelow = 	m_pBelow;
+			m_pBelow = 				oldBelow->m_pBelow;
+			oldBelow->m_pBelow = 	this;
+			oldBelow->m_pAbove = 	m_pAbove;
+			m_pAbove->m_pBelow = 	oldBelow;
+			m_pAbove = 				oldBelow;
+			m_pBelow->m_pAbove = 	this;
+			return 0;
+		}
+	}
+}
+
 //************************* Program Manager **********************
-//TODO: FG/BG
-int 		zylProgManager::s_Count=0;
-zylProg*	zylProgManager::s_pHead=NULL;
-zylProg*	zylProgManager::s_pActive=NULL;
+int 		zylProgManager::s_Count =				0;
+zylProg*	zylProgManager::s_pHead = 				NULL;
+zylProg*	zylProgManager::s_pActive =				NULL;
 CRGB 		zylProgManager::s_aColors[MAX_COLORS] = {CRGB::Black};
 int 		zylProgManager::s_ActiveColorIndex = 	0;
+zylProg		zylProgManager::s_FG(false);
+zylProg		zylProgManager::s_BG(false);
+
 
 void zylProgManager::add(zylProg* ptr)
 {
