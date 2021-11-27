@@ -35,7 +35,7 @@ public:
 	virtual void          	activate(){};
 	virtual void          	render() = 0;    // * must be redefined
 	virtual void			input(uint8_t x, uint8_t y, uint8_t z){};
-	//TODO: composite mode, ID, renderlist pointer & methods, constructors(bool)
+	//TODO: composite mode, renderlist pointer & methods
 };
 
 //************************* Program Manager *************************
@@ -60,7 +60,7 @@ public:
 	static void					setColor(CRGB c);
 	static CRGB					getColor(int i);
 	static CRGB					getColor();
-	//TODO: rename g->s, color array, init(), FG & BG
+	//TODO: FG & BG
 };
 
 #endif

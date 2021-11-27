@@ -24,7 +24,7 @@ zylProg::zylProg(bool add)
 		zylProgManager::add(this);
 }
 //************************* Program Manager **********************
-//TODO: g->s, colorarray, FG/BG
+//TODO: FG/BG
 int 		zylProgManager::s_Count=0;
 zylProg*	zylProgManager::s_pHead=NULL;
 zylProg*	zylProgManager::s_pActive=NULL;
