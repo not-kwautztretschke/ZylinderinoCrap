@@ -23,16 +23,16 @@ typedef char CRGB;
 
 //************************* Zylinder Program ************************
 enum zylCompositeMode{
-	ZCM_SOLID,
-	ZCM_ADD,
-	ZCM_SUB,
-	ZCM_AVG
+	ZCM_SOLID 	= 0,
+	ZCM_ADD 	= 1,
+	ZCM_SUB 	= 2,
+	ZCM_AVG 	= 3
 };
 
 class zylProg{
 public:
 	int						m_Id;
-	zylCompositeMode		m_CompositeMode;
+	zylCompositeMode		m_CompositeMode = ZCM_SOLID;
 	CRGB					m_FB[X_RES][Y_RES];
 	zylProg*				m_pNext = NULL;
 	zylProg*				m_pAbove = NULL;
@@ -72,7 +72,7 @@ public:
 	static void					composite(CRGB fb[X_RES][Y_RES]);
 	static void					input(uint8_t x, uint8_t y, uint8_t z);
 
-	static int					changeComposition(int x);
+	static int					changeComposition(int x, int y);
 	static void					printComposition();
 	static void					selectColor(int i);
 	static void					setColor(CRGB c, int i);

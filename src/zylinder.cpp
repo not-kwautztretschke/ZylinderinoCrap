@@ -117,7 +117,7 @@ void loop(){
 			zylProgManager::printComposition();
 			break;
 		case OP_COMPOSITEPROGRAM:
-			Serial.printf("Compositor exit code %d\n", zylProgManager::changeComposition(x));
+			Serial.printf("Compositor exit code %d\n", zylProgManager::changeComposition(x, y));
 			zylProgManager::printComposition();
 			break;
 		case OP_PROGRAMINPUT:

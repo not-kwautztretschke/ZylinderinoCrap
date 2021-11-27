@@ -148,34 +148,72 @@ int zylProgManager::init(){
 
 void zylProgManager::renderPrograms()
 {
-	zylProg* ptr = &s_BG;
+	zylProg* ptr = s_BG.m_pAbove;
 	while(ptr != &s_FG){
 		ptr->render();
 		ptr = ptr->m_pAbove;
 	}
 }
 
-//TODO renderlist; merge with renderPrograms()
+//TODO merge with renderPrograms()
 void zylProgManager::composite(CRGB fb_in[X_RES][Y_RES])
-{	//currently only composite active program
-	for(int x=0;x<X_RES;x++)
-		for(int y=0;y<Y_RES;y++)
-			fb_in[x][y] = s_pActive->m_FB[x][y];
+{
+	//? maybe clear the framebuffer first?
+	zylProg* ptr = s_BG.m_pAbove;
+	while(ptr != &s_FG){
+		//? just add render() here?
+		for(int x=0;x<X_RES;x++){
+			for(int y=0;y<Y_RES;y++){
+				switch(ptr->m_CompositeMode){
+				case ZCM_SOLID:	//default
+					fb_in[x][y] = ptr->m_FB[x][y]; //TODO alpha, opacity
+					break;
+				case ZCM_ADD:
+					fb_in[x][y] = 
+						fb_in[x][y]
+						+ ptr->m_FB[x][y]; //TODO alpha, opacity
+					break;
+				case ZCM_SUB:
+					fb_in[x][y] = 
+						fb_in[x][y]
+						- ptr->m_FB[x][y]; //TODO alpha, opacity
+					break;
+				case ZCM_AVG:
+					fb_in[x][y] = 
+						fb_in[x][y]/2
+						+ ptr->m_FB[x][y]/2; //TODO alpha, opacity
+					break;
+				}
+			}
+		}
+		ptr = ptr->m_pAbove;
+	}
 }
 
-int zylProgManager::changeComposition(int x)
+int zylProgManager::changeComposition(int x, int y)
 {
 	switch(x){
-	case 0: //push
-		return s_pActive->push();
-	case 1: //pop
-		return s_pActive->pop();
-	case 2: //move up
-		return s_pActive->move(true);
-	case 3: //move down
-		return s_pActive->move(false);
+	case 0: //change mode
+		s_pActive->m_CompositeMode = (zylCompositeMode) y;
+		return 0;
+	case 1: //change order
+		switch(y){
+		case 0: //push
+			return s_pActive->push();
+		case 1: //pop
+			return s_pActive->pop();
+		case 2: //move up
+			return s_pActive->move(true);
+		case 3: //move down
+			return s_pActive->move(false);
+		default: //invalid input
+			return 3;
+		}
+		break;
+	case 2: //change opacity
+		return 0; //TODO implement
 	default: //invalid input
-		return 2;
+		return 3;
 	}
 }
 
@@ -190,7 +228,7 @@ void zylProgManager::printComposition()
 			Serial.printf("Layer %d: Background\n", i);
 			break;
 		}else{
-			Serial.printf("Layer %d: Program %d%s\n", i, ptr->m_Id, (ptr==s_pActive)?"(Active)":"");
+			Serial.printf("Layer %d: Program %d, mode %d %s\n", i, ptr->m_Id, ptr->m_CompositeMode, (ptr==s_pActive)?"<-Active":"");
 		}
 		ptr = ptr->m_pBelow;
 	}
