@@ -146,13 +146,12 @@ int zylProgManager::init(){
 	return 0;
 }
 
-//TODO only render programs in renderlist
 void zylProgManager::renderPrograms()
 {
-	zylProg* ptr = s_pHead;
-	for(int i=0; i<s_Count; i++){
+	zylProg* ptr = &s_BG;
+	while(ptr != &s_FG){
 		ptr->render();
-		ptr = ptr->m_pNext;
+		ptr = ptr->m_pAbove;
 	}
 }
 
