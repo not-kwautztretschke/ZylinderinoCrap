@@ -15,7 +15,8 @@ class : public zylProg{
 private:
 	int 		m_Speed = 128;
 	int 		m_Slant = 0;
-	int			m_Dir	= 1;
+	//int			m_Dir	= 1;
+	//TODO add offsets for continous movement when flipping
 public:
 	using zylProg::zylProg;
 	int init(){
@@ -44,7 +45,8 @@ public:
 			m_Slant = y;
 			break;
 		case 2:
-			m_Dir = !m_Dir;
+			//m_Dir = !m_Dir;
+			m_Speed = -m_Speed;
 		}
 	}
 }rainbow;
