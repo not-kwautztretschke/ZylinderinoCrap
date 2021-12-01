@@ -13,7 +13,7 @@
 
 class : public zylProg{
 private:
-	int 		m_Speed = 5;
+	int 		m_Speed = 128;
 	int 		m_Slant = 0;
 	int			m_Dir	= 1;
 public:
@@ -23,14 +23,13 @@ public:
 		return 0;
 	}
 	void render(){
+		int v = (millis()*m_Speed/1024);
 		for (int x = 0; x < X_RES; x++){
 			for (int y = 0; y < Y_RES; y++){
-				m_FB[x][y].setHue(  
-					((255*x)/X_RES)  
-					+y*(m_Slant/5) 
-					+ (m_Dir)?
-						 -(millis()*(m_Speed/10))%255 
-						: (millis()*(m_Speed/10))%255    
+				m_FB[x][y].setHue(
+					(x*255)/X_RES
+					+y*m_Slant
+					+v    
 				); 
 			} 
     	}
