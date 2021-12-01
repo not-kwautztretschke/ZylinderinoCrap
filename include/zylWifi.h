@@ -20,7 +20,7 @@
 
 #define WIFI_CONNECT_TIMEOUT 		8000
 #ifdef Z_LEO
-  	#define PUPBUFFER_SIZE			5				//PUP size, 5 -> with Signature
+  	#define PUPBUFFER_SIZE			4				//PUP size, 5 -> with Signature
 	#define PUP_SIGNATURE			69				//5th PUP byte has to be this
 #endif 
 #ifdef Z_BERNIE

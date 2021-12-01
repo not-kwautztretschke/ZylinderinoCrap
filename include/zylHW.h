@@ -15,20 +15,27 @@
 #include <FastLED.h>
 #include "config.h"
 
-#define LED_VOLTAGE 			5                   //Led voltage
-#define LED_MAX_MILLIAMPS 		1000                //Maximum current provided by power source
-#define GLOBAL_BRIGHTNESS 		10                  //Scales down overall brightness
 #ifdef Z_LEO
-  #define NUM_LEDS 				336				    //Total number of Leds
-  #define DATA_PIN 				13                  //Led data pin
+  #define NUM_LEDS 				    336				    //Total number of Leds
+  #define LED_VOLTAGE 			  5             //Led voltage
+  #define LED_MAX_MILLIAMPS 	1500          //Maximum current provided by power source
+  #define GLOBAL_BRIGHTNESS 	1            //Scales down overall brightness
+  #define DATA_PIN 				    13            //Led data pin
+  #define DIP1_PIN				    33					  //Dipswitches
+  #define DIP2_PIN				    32
+  #define DIP3_PIN				    35
+  #define DIP4_PIN				    34
 #endif
 #ifdef Z_BERNIE
-  #define NUM_LEDS 				270                 //Total number of Leds
-  #define DATA_PIN 				26                  //Led data pin
-  #define DIP1_PIN				33					//Dipswitches
-  #define DIP2_PIN				32
-  #define DIP3_PIN				35
-  #define DIP4_PIN				34
+  #define NUM_LEDS 				    270           //Total number of Leds
+  #define LED_VOLTAGE 			  5             //Led voltage
+  #define LED_MAX_MILLIAMPS 	1000          //Maximum current provided by power source
+  #define GLOBAL_BRIGHTNESS 	10            //Scales down overall brightness
+  #define DATA_PIN 				    26            //Led data pin
+  #define DIP1_PIN				    33					  //Dipswitches
+  #define DIP2_PIN				    32
+  #define DIP3_PIN				    35
+  #define DIP4_PIN				    34
 #endif
 
 class zylHW{
@@ -48,5 +55,13 @@ public:
 	int						getDipSwitch(int num);
 };
 
+class zylHW_Leo : zylHW{
+private:
+	CRGB 					m_aLeds[NUM_LEDS];
+public:
+	int 					init();
+	void					show(CRGB fb[X_RES][Y_RES]);
+	int						getDipSwitch(int num);
+};
 
 #endif

@@ -56,3 +56,45 @@ int zylHW_Bernie::getDipSwitch(int num){
 		return 0;
 	}
 }
+
+
+int zylHW_Leo::init(){
+	//* dipswitches
+	pinMode(DIP1_PIN, INPUT);
+	pinMode(DIP2_PIN, INPUT);
+	pinMode(DIP3_PIN, INPUT);
+	pinMode(DIP4_PIN, INPUT);
+	//* initialize LEDs
+	FastLED.addLeds<WS2812B, DATA_PIN, GRB>(m_aLeds, NUM_LEDS);
+	FastLED.setMaxPowerInVoltsAndMilliamps(LED_VOLTAGE, LED_MAX_MILLIAMPS);
+	FastLED.setBrightness(GLOBAL_BRIGHTNESS);
+	//* set all LEDs to off
+	for(int j=0;j<NUM_LEDS; j++)
+		m_aLeds[j] = CRGB::Black;
+	FastLED.show();
+	return 0;
+}
+
+void zylHW_Leo::show(CRGB fb[X_RES][Y_RES]){
+	for (int x = 0; x < X_RES; x++){
+		for (int y = 0; y < Y_RES; y++){
+			m_aLeds[x*Y_RES + abs(6*((x+1)%2)-y)] = fb[x][y];
+		}
+	}
+	FastLED.show();
+}
+
+int zylHW_Leo::getDipSwitch(int num){
+	switch(num){
+		case 0:
+		return (digitalRead(DIP1_PIN)==HIGH);
+		case 1:
+		return (digitalRead(DIP2_PIN)==HIGH);
+		case 2:
+		return (digitalRead(DIP3_PIN)==HIGH);
+		case 3:
+		return (digitalRead(DIP4_PIN)==HIGH);
+		default:
+		return 0;
+	}
+}

@@ -83,7 +83,7 @@ int zylUdp::read(uint8_t* opcode, uint8_t* x, uint8_t* y, uint8_t* z){
 
 #ifdef Z_LEO
 int zylUdp::verifyPacket(){
-	return (m_aPupBuffer[4] == PUP_SIGNATURE);
+	return 1;		// No signature.
 }
 #endif
 
