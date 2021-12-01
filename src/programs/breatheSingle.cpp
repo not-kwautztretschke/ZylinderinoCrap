@@ -19,16 +19,16 @@ public:
 
 	void input(uint8_t x, uint8_t y, uint8_t z){
 		switch(x){
-		case 0:
+		case 1:
 			m_ColorIndex = y;
 			break;
-		case 1:
+		case 0:
 			m_Speed = y;
 			break;
 		}
 	}
 	int init(){
-		m_Id = 5;
+		m_Id = 2;
 		return 0;
 	}
 	void render(){
