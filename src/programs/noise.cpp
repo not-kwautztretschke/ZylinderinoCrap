@@ -33,13 +33,13 @@ private:
 public:
 	using zylProg::zylProg;
 	int init(){
-		m_Id = 131;
+		m_Id = 3;
 		return 0;
 	}
 	void render(){
 		for (int x = 0; x < X_RES; x++){
 			for (int y = 0; y < Y_RES; y++){
-				int noise = inoise8(x*15,y*15,millis()/10); //todo: get sliders and time factor
+				int noise = inoise8(x*(scale+20)/5,y*(scale+20)/5,millis()*(speed+1)/20); //todo: get sliders and time factor
 				//Serial.print(noise);
 				int prestep = 0;
 				if (false){	//todo: hue mode here
@@ -69,10 +69,13 @@ public:
 	void input(uint8_t x, uint8_t y, uint8_t z){
 		switch(x){
 		case 0:
+			speed = y;
 			break;
-		case 6:
+		case 4:
+			scale = y;
 			break;
-		case 2:
+		case 129:
+			numcolors = y;
 			break;
 		}
 	}
