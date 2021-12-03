@@ -19,7 +19,7 @@
   #define NUM_LEDS 				    336				    //Total number of Leds
   #define LED_VOLTAGE 			  5             //Led voltage
   #define LED_MAX_MILLIAMPS 	1500          //Maximum current provided by power source
-  #define GLOBAL_BRIGHTNESS 	1            //Scales down overall brightness
+  #define GLOBAL_BRIGHTNESS 	15            //Scales down overall brightness
   #define DATA_PIN 				    13            //Led data pin
   #define DIP1_PIN				    33					  //Dipswitches
   #define DIP2_PIN				    32
