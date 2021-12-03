@@ -142,8 +142,9 @@ int zylProgManager::init()
 		return 1;
 	}
 	s_pActive = s_pHead;	//focus first program and push it on the render list
-	//! bork
-	focus(1);
+	#ifdef ZPM_DEFAULT_PROGRAM
+		focus(ZPM_DEFAULT_PROGRAM);
+	#endif
 	s_pActive->push();
 	s_pActive->activate();
 	return 0;
