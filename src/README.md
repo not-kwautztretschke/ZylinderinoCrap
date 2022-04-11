@@ -8,3 +8,5 @@ The microcontroller is a ESP8266, which enables it to open a webserver and stuff
 A friend of mine built a LED top hat himself, but wired the strips all differently.
 To accomodate this, the backend and the frontend shall be separated.
 Possibly one could also write a top hat emulator sometime.
+
+Theoretically, this Github project should be linked with my personal Jira account. We'll see about that.
