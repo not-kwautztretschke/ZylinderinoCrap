@@ -65,39 +65,17 @@ void(* resetFunc) (void) = 0;
 void setup(){
 	Serial.begin(115200);
 	DPRINT("init HW\n");
-	s_HW.init();				//TODO all these have a return value, use it.
-	DPRINT("HW done, init timer\n");
-	initTimer();
-	DPRINT("timer done, init Wifi\n");
-	Serial.printf("Dipswitch state = %d\n", s_HW.getDipSwitch(0));
-	s_Wifi.init((zylWifiMode)s_HW.getDipSwitch(0));
-	DPRINT("Wifi done, init UDP\n");
-	s_Udp.init(PUP_PORT);
-	DPRINT("UDP done; init OTA\n");
-	initOTA();
-	DPRINT("OTA done, init Programs\n");
-	zylProgManager::initPrograms();
-	DPRINT("Programs done, init ZPM\n");
-	zylProgManager::init();
-	DPRINT("init Done\n");
-}
-
-void loop(){
-	(void) s_Wifi.handle();
-	if (g_vMissedFrames){
-		Serial.printf("MISSED %d FRAMES, SOMETHING IS WRONG\n", g_vMissedFrames);
-		portENTER_CRITICAL(&g_TimerMux);
-		g_vMissedFrames = 0;
-		portEXIT_CRITICAL(&g_TimerMux);
-	}
-	if (g_vRenderFrame == true){
-		zylProgManager::renderPrograms();
-		zylProgManager::composite(s_FB);
-		s_HW.show(s_FB);
-		portENTER_CRITICAL(&g_TimerMux);
-		g_vRenderFrame = false;
-		portEXIT_CRITICAL(&g_TimerMux);
-	}
+	s_HW.init();				//TODO all t
+	
+	
+	
+	
+	
+	
+alles schrott hab gar keinen Zylinder	
+	
+	
+	
 
 	uint8_t opcode, x, y, z;
 	if(s_Udp.read(&opcode, &x, &y, &z)){
